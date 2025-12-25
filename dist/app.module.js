@@ -8,13 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
+const config_1 = require("@nestjs/config");
 const ping_module_1 = require("./ping/ping.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [ping_module_1.PingModule],
+        imports: [config_1.ConfigModule.forRoot({
+                envFilePath: '../.env',
+                isGlobal: true,
+            }), ping_module_1.PingModule],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
