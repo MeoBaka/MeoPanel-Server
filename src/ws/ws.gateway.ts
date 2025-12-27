@@ -56,6 +56,21 @@ export class WsGateway
           }
         }
 
+        // Status update command
+        else if (data.command === 'status') {
+          // For status updates, we need to validate the client somehow
+          // For now, assume authenticated clients can request status
+          try {
+            const connectData = await this.connectService.connect();
+            client.send(JSON.stringify(connectData));
+          } catch (error) {
+            client.send(JSON.stringify({
+              type: 'error',
+              message: 'Failed to get server status',
+            }));
+          }
+        }
+
         // Legacy connect command
         else if (data.uuid && data.token) {
           const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);

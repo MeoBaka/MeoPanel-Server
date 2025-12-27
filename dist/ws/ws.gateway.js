@@ -58,6 +58,18 @@ let WsGateway = class WsGateway {
                         }));
                     }
                 }
+                else if (data.command === 'status') {
+                    try {
+                        const connectData = await this.connectService.connect();
+                        client.send(JSON.stringify(connectData));
+                    }
+                    catch (error) {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Failed to get server status',
+                        }));
+                    }
+                }
                 else if (data.uuid && data.token) {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {

@@ -38,13 +38,21 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectService = void 0;
 const common_1 = require("@nestjs/common");
 const os = __importStar(require("os"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
+const pm2_service_1 = require("../pm2/pm2.service");
 let ConnectService = class ConnectService {
+    pm2Service;
+    constructor(pm2Service) {
+        this.pm2Service = pm2Service;
+    }
     async connect() {
         const totalMemory = os.totalmem();
         const freeMemory = os.freemem();
@@ -53,6 +61,7 @@ let ConnectService = class ConnectService {
         const cpuUsagePercent = await this.getCpuUsage();
         const diskSpace = this.getDiskSpace();
         const instances = this.getInstances();
+        const pm2Stats = await this.getPm2Stats();
         const platform = this.getPlatform();
         const version = {
             node: process.version,
@@ -79,6 +88,9 @@ let ConnectService = class ConnectService {
             total_instances: instances.total,
             running_instances: instances.running,
             stopped_instances: instances.stopped,
+            total_pm2: pm2Stats.total,
+            running_pm2: pm2Stats.running,
+            stopped_pm2: pm2Stats.stopped,
             platform,
             version,
         };
@@ -188,6 +200,27 @@ let ConnectService = class ConnectService {
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
+    async getPm2Stats() {
+        try {
+            const processList = await this.pm2Service.getProcessList();
+            const total = processList.length;
+            const running = processList.filter(proc => proc.pm2_env.status === 'online').length;
+            const stopped = total - running;
+            return {
+                total,
+                running,
+                stopped,
+            };
+        }
+        catch (error) {
+            console.error('Failed to get PM2 stats:', error);
+            return {
+                total: 0,
+                running: 0,
+                stopped: 0,
+            };
+        }
+    }
     getInstances() {
         return {
             total: 0,
@@ -220,6 +253,7 @@ let ConnectService = class ConnectService {
 };
 exports.ConnectService = ConnectService;
 exports.ConnectService = ConnectService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __metadata("design:paramtypes", [pm2_service_1.Pm2Service])
 ], ConnectService);
 //# sourceMappingURL=connect.service.js.map

@@ -9,11 +9,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectModule = void 0;
 const common_1 = require("@nestjs/common");
 const connect_service_1 = require("./connect.service");
+const pm2_module_1 = require("../pm2/pm2.module");
 let ConnectModule = class ConnectModule {
 };
 exports.ConnectModule = ConnectModule;
 exports.ConnectModule = ConnectModule = __decorate([
     (0, common_1.Module)({
+        imports: [pm2_module_1.Pm2Module],
         providers: [connect_service_1.ConnectService],
         exports: [connect_service_1.ConnectService],
     })

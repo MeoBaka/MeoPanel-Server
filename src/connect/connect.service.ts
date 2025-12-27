@@ -2,9 +2,11 @@ import { Injectable } from '@nestjs/common';
 import * as os from 'os';
 import * as fs from 'fs';
 import * as path from 'path';
+import { Pm2Service } from '../pm2/pm2.service';
 
 @Injectable()
 export class ConnectService {
+  constructor(private readonly pm2Service: Pm2Service) {}
   async connect(): Promise<any> {
     const totalMemory = os.totalmem();
     const freeMemory = os.freemem();
@@ -18,6 +20,9 @@ export class ConnectService {
 
     // Instances - placeholder, need to implement based on your app
     const instances = this.getInstances();
+
+    // PM2 statistics
+    const pm2Stats = await this.getPm2Stats();
 
     const platform = this.getPlatform();
     const version = {
@@ -47,6 +52,9 @@ export class ConnectService {
       total_instances: instances.total,
       running_instances: instances.running,
       stopped_instances: instances.stopped,
+      total_pm2: pm2Stats.total,
+      running_pm2: pm2Stats.running,
+      stopped_pm2: pm2Stats.stopped,
       platform,
       version,
     };
@@ -172,6 +180,28 @@ export class ConnectService {
     const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+  }
+
+  private async getPm2Stats(): Promise<{ total: number; running: number; stopped: number }> {
+    try {
+      const processList = await this.pm2Service.getProcessList();
+      const total = processList.length;
+      const running = processList.filter(proc => proc.pm2_env.status === 'online').length;
+      const stopped = total - running;
+
+      return {
+        total,
+        running,
+        stopped,
+      };
+    } catch (error) {
+      console.error('Failed to get PM2 stats:', error);
+      return {
+        total: 0,
+        running: 0,
+        stopped: 0,
+      };
+    }
   }
 
   private getInstances(): { total: number; running: number; stopped: number } {

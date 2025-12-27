@@ -29,9 +29,6 @@ export class Pm2Service implements OnModuleInit {
           return;
         }
 
-        // Log successful retrieval
-        this.auditlogService.logInfo('PM2', `Retrieved ${processList.length} processes`);
-
         resolve(processList);
       });
     });

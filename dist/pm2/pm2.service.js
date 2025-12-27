@@ -42,7 +42,6 @@ let Pm2Service = class Pm2Service {
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Retrieved ${processList.length} processes`);
                 resolve(processList);
             });
         });
