@@ -60,7 +60,8 @@ export class WsGateway
         else if (data.uuid && data.token) {
           const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
           if (isAuthenticated) {
-            client.send(JSON.stringify(this.connectService.connect()));
+            const connectData = await this.connectService.connect();
+            client.send(JSON.stringify(connectData));
           } else {
             client.send(JSON.stringify({
               type: 'error',

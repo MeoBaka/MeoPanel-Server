@@ -7,3 +7,5 @@
 [Nest] 25912  - 00:17:05 28/12/2025     LOG [PM2] Connected to PM2 +0ms
 [Nest] 25912  - 00:17:05 28/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +11ms
 [Nest] 25912  - 00:18:02 28/12/2025     LOG [PM2] Retrieved 12 processes +57s
+[Nest] 20776  - 00:40:02 28/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 20776  - 00:40:02 28/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +8ms

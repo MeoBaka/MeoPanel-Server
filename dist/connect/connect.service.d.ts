@@ -1,5 +1,6 @@
 export declare class ConnectService {
-    connect(): any;
+    connect(): Promise<any>;
+    private getCpuUsage;
     private getDiskSpace;
     private parseSize;
     private getAvailableDiskSpace;

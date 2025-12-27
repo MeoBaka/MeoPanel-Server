@@ -45,12 +45,12 @@ const os = __importStar(require("os"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 let ConnectService = class ConnectService {
-    connect() {
+    async connect() {
         const totalMemory = os.totalmem();
         const freeMemory = os.freemem();
         const usedMemory = totalMemory - freeMemory;
         const cpus = os.cpus();
-        const cpuUsage = cpus.length;
+        const cpuUsagePercent = await this.getCpuUsage();
         const diskSpace = this.getDiskSpace();
         const instances = this.getInstances();
         const platform = this.getPlatform();
@@ -67,7 +67,10 @@ let ConnectService = class ConnectService {
                 used: usedMemory,
                 free: freeMemory,
             },
-            cpu: cpuUsage,
+            cpu: {
+                cores: cpus.length,
+                usage: cpuUsagePercent,
+            },
             disk_space: {
                 used: diskSpace.used,
                 max: diskSpace.max,
@@ -79,6 +82,35 @@ let ConnectService = class ConnectService {
             platform,
             version,
         };
+    }
+    async getCpuUsage() {
+        const start = os.cpus().map(cpu => ({
+            user: cpu.times.user,
+            nice: cpu.times.nice,
+            sys: cpu.times.sys,
+            idle: cpu.times.idle,
+            irq: cpu.times.irq,
+        }));
+        await new Promise(resolve => setTimeout(resolve, 100));
+        const end = os.cpus().map(cpu => ({
+            user: cpu.times.user,
+            nice: cpu.times.nice,
+            sys: cpu.times.sys,
+            idle: cpu.times.idle,
+            irq: cpu.times.irq,
+        }));
+        let totalIdle = 0;
+        let totalTick = 0;
+        for (let i = 0; i < start.length; i++) {
+            const startTimes = start[i];
+            const endTimes = end[i];
+            const idle = endTimes.idle - startTimes.idle;
+            const tick = (endTimes.user - startTimes.user) + (endTimes.nice - startTimes.nice) + (endTimes.sys - startTimes.sys) + (endTimes.idle - startTimes.idle) + (endTimes.irq - startTimes.irq);
+            totalIdle += idle;
+            totalTick += tick;
+        }
+        const usage = 100 - ~~(100 * totalIdle / totalTick);
+        return usage;
     }
     getDiskSpace() {
         const diskSpaceStr = process.env.DISK_SPACE || '100GB';
