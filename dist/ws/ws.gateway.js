@@ -83,7 +83,8 @@ let WsGateway = class WsGateway {
             const msg = message.toString();
             try {
                 const data = JSON.parse(msg);
-                if (data.uuid === this.connectData.uuid && data.token === this.connectData.token) {
+                if (data.uuid === this.connectData.uuid &&
+                    data.token === this.connectData.token) {
                     client.send(JSON.stringify(this.connectService.connect()));
                 }
             }

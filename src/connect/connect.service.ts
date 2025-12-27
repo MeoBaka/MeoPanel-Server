@@ -56,14 +56,19 @@ export class ConnectService {
     // Check available space
     const available = this.getAvailableDiskSpace();
     if (available < maxBytes) {
-      console.warn(`Warning: Available disk space (${this.formatBytes(available)}) is less than required (${diskSpaceStr})`);
+      console.warn(
+        `Warning: Available disk space (${this.formatBytes(available)}) is less than required (${diskSpaceStr})`,
+      );
     }
 
     // Calculate used space in meopanel dirs
     const rootDir = process.env.ROOT_DIR || '/meopanel/data';
     const logDir = process.env.LOG_DIR || '/meopanel/logs';
     const instanceDir = process.env.INSTANCE_DIR || '/meopanel/instances';
-    const used = this.getFolderSize(rootDir) + this.getFolderSize(logDir) + this.getFolderSize(instanceDir);
+    const used =
+      this.getFolderSize(rootDir) +
+      this.getFolderSize(logDir) +
+      this.getFolderSize(instanceDir);
 
     return {
       allow: maxBytes,
@@ -78,10 +83,14 @@ export class ConnectService {
     const num = parseInt(match[1]);
     const unit = match[2]?.toUpperCase();
     switch (unit) {
-      case 'GB': return num * 1024 * 1024 * 1024;
-      case 'MB': return num * 1024 * 1024;
-      case 'KB': return num * 1024;
-      default: return num;
+      case 'GB':
+        return num * 1024 * 1024 * 1024;
+      case 'MB':
+        return num * 1024 * 1024;
+      case 'KB':
+        return num * 1024;
+      default:
+        return num;
     }
   }
 

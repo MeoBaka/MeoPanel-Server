@@ -1,4 +1,9 @@
-import { WebSocketGateway, OnGatewayConnection, OnGatewayDisconnect, WebSocketServer } from '@nestjs/websockets';
+import {
+  WebSocketGateway,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+  WebSocketServer,
+} from '@nestjs/websockets';
 import { OnModuleInit } from '@nestjs/common';
 import { Server } from 'ws';
 import { PingService } from '../ping/ping.service';
@@ -8,7 +13,9 @@ import * as path from 'path';
 import { randomUUID } from 'crypto';
 
 @WebSocketGateway()
-export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit {
+export class WsGateway
+  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit
+{
   @WebSocketServer()
   server: Server;
 
@@ -44,7 +51,10 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect, OnMo
       const msg = message.toString();
       try {
         const data = JSON.parse(msg);
-        if (data.uuid === this.connectData.uuid && data.token === this.connectData.token) {
+        if (
+          data.uuid === this.connectData.uuid &&
+          data.token === this.connectData.token
+        ) {
           client.send(JSON.stringify(this.connectService.connect()));
         }
       } catch {
