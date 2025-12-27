@@ -6,20 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.ConnectModule = void 0;
 const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const ping_module_1 = require("./ping/ping.module");
-const ws_module_1 = require("./ws/ws.module");
-const connect_module_1 = require("./connect/connect.module");
-let AppModule = class AppModule {
+const connect_service_1 = require("./connect.service");
+let ConnectModule = class ConnectModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.ConnectModule = ConnectModule;
+exports.ConnectModule = ConnectModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot({
-                isGlobal: true,
-            }), ping_module_1.PingModule, ws_module_1.WsModule, connect_module_1.ConnectModule],
+        providers: [connect_service_1.ConnectService],
+        exports: [connect_service_1.ConnectService],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], ConnectModule);
+//# sourceMappingURL=connect.module.js.map

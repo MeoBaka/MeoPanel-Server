@@ -6,20 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.WsModule = void 0;
 const common_1 = require("@nestjs/common");
-const config_1 = require("@nestjs/config");
-const ping_module_1 = require("./ping/ping.module");
-const ws_module_1 = require("./ws/ws.module");
-const connect_module_1 = require("./connect/connect.module");
-let AppModule = class AppModule {
+const ws_gateway_1 = require("./ws.gateway");
+const ping_module_1 = require("../ping/ping.module");
+const connect_module_1 = require("../connect/connect.module");
+let WsModule = class WsModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.WsModule = WsModule;
+exports.WsModule = WsModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot({
-                isGlobal: true,
-            }), ping_module_1.PingModule, ws_module_1.WsModule, connect_module_1.ConnectModule],
+        imports: [ping_module_1.PingModule, connect_module_1.ConnectModule],
+        providers: [ws_gateway_1.WsGateway],
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], WsModule);
+//# sourceMappingURL=ws.module.js.map
