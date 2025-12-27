@@ -4,58 +4,69 @@ import {
   OnGatewayDisconnect,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { OnModuleInit } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { Server } from 'ws';
 import { PingService } from '../ping/ping.service';
 import { ConnectService } from '../connect/connect.service';
-import * as fs from 'fs';
-import * as path from 'path';
-import { randomUUID } from 'crypto';
+import { Pm2Service } from '../pm2/pm2.service';
+import { MeoGuard } from '../meoguard/meoguard.guard';
 
 @WebSocketGateway()
 export class WsGateway
-  implements OnGatewayConnection, OnGatewayDisconnect, OnModuleInit
+  implements OnGatewayConnection, OnGatewayDisconnect
 {
   @WebSocketServer()
   server: Server;
 
-  private connectData: any;
-
   constructor(
     private readonly pingService: PingService,
     private readonly connectService: ConnectService,
+    private readonly pm2Service: Pm2Service,
+    private readonly meoGuard: MeoGuard,
   ) {}
 
-  onModuleInit() {
-    const filePath = path.join(__dirname, '../../connect.json');
-    if (fs.existsSync(filePath)) {
-      this.connectData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-      if (!this.connectData.uuid || !this.connectData.token) {
-        this.generateConnectData(filePath);
-      }
-    } else {
-      this.generateConnectData(filePath);
-    }
-  }
-
-  private generateConnectData(filePath: string) {
-    this.connectData = {
-      uuid: randomUUID(),
-      token: randomUUID().replace(/-/g, ''),
-    };
-    fs.writeFileSync(filePath, JSON.stringify(this.connectData, null, 2));
-  }
-
   handleConnection(client: any) {
-    client.on('message', (message: Buffer) => {
+    client.on('message', async (message: Buffer) => {
       const msg = message.toString();
       try {
         const data = JSON.parse(msg);
-        if (
-          data.uuid === this.connectData.uuid &&
-          data.token === this.connectData.token
-        ) {
-          client.send(JSON.stringify(this.connectService.connect()));
+
+        // Handle PM2 commands with authentication
+        if (data.command === 'pm2-list') {
+          const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+          if (isAuthenticated) {
+            try {
+              const processList = await this.pm2Service.getProcessList();
+              client.send(JSON.stringify({
+                type: 'pm2-list',
+                data: processList,
+              }));
+            } catch (error) {
+              client.send(JSON.stringify({
+                type: 'error',
+                message: 'Failed to get PM2 process list',
+                error: error.message,
+              }));
+            }
+          } else {
+            client.send(JSON.stringify({
+              type: 'error',
+              message: 'Unauthorized: Invalid UUID or token for PM2 command',
+            }));
+          }
+        }
+
+        // Legacy connect command
+        else if (data.uuid && data.token) {
+          const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+          if (isAuthenticated) {
+            client.send(JSON.stringify(this.connectService.connect()));
+          } else {
+            client.send(JSON.stringify({
+              type: 'error',
+              message: 'Unauthorized: Invalid UUID or token',
+            }));
+          }
         }
       } catch {
         if (msg === 'ping') {

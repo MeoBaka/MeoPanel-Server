@@ -6,20 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.WsModule = void 0;
+exports.MeoguardModule = void 0;
 const common_1 = require("@nestjs/common");
-const ws_gateway_1 = require("./ws.gateway");
-const ping_module_1 = require("../ping/ping.module");
-const connect_module_1 = require("../connect/connect.module");
-const pm2_module_1 = require("../pm2/pm2.module");
-const meoguard_module_1 = require("../meoguard/meoguard.module");
-let WsModule = class WsModule {
+const meoguard_guard_1 = require("./meoguard.guard");
+const auditlog_module_1 = require("../auditlog/auditlog.module");
+let MeoguardModule = class MeoguardModule {
 };
-exports.WsModule = WsModule;
-exports.WsModule = WsModule = __decorate([
+exports.MeoguardModule = MeoguardModule;
+exports.MeoguardModule = MeoguardModule = __decorate([
     (0, common_1.Module)({
-        imports: [ping_module_1.PingModule, connect_module_1.ConnectModule, pm2_module_1.Pm2Module, meoguard_module_1.MeoguardModule],
-        providers: [ws_gateway_1.WsGateway],
+        imports: [auditlog_module_1.AuditlogModule],
+        providers: [meoguard_guard_1.MeoGuard],
+        exports: [meoguard_guard_1.MeoGuard],
     })
-], WsModule);
-//# sourceMappingURL=ws.module.js.map
+], MeoguardModule);
+//# sourceMappingURL=meoguard.module.js.map

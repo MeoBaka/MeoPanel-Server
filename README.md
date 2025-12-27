@@ -1,16 +1,19 @@
 # MeoPanel Server
 
-A NestJS-based server application for MeoPanel, providing REST API endpoints and WebSocket support for real-time communication.
+A NestJS-based server application for MeoPanel, providing REST API endpoints, WebSocket support for real-time communication, PM2 process management, audit logging, and authentication guards.
 
 ## Description
 
-MeoPanel Server is built with [NestJS](https://nestjs.com/), a progressive Node.js framework for building efficient and scalable server-side applications. It includes basic health check endpoints and WebSocket functionality for ping/pong operations.
+MeoPanel Server is built with [NestJS](https://nestjs.com/), a progressive Node.js framework for building efficient and scalable server-side applications. It provides comprehensive server management capabilities including health monitoring, real-time WebSocket communication, PM2 process control, audit logging, and secure authentication mechanisms.
 
 ## Features
 
-- **REST API**: Health check endpoint to verify server status
-- **WebSocket Support**: Real-time ping/pong communication using WebSocket
-- **Environment Configuration**: Configurable port via `.env` file
+- **REST API**: Health check and system status endpoints
+- **WebSocket Support**: Real-time communication with ping/pong, connection authentication, and PM2 process listing
+- **PM2 Integration**: Process management and monitoring capabilities
+- **Audit Logging**: Comprehensive logging system for tracking system activities
+- **Authentication Guards**: Custom guards for securing endpoints and WebSocket connections
+- **Environment Configuration**: Configurable settings via `.env` file
 - **TypeScript**: Fully typed codebase for better development experience
 
 ## Installation
@@ -73,7 +76,7 @@ Returns the server status.
 
 ## WebSocket
 
-The server supports WebSocket connections for real-time communication.
+The server supports WebSocket connections for real-time communication with multiple command types.
 
 ### Connection
 Connect to `ws://localhost:{HWSPORT}`
@@ -94,18 +97,111 @@ ping
 }
 ```
 
+### Connect
+Get system information using UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token"
+}
+```
+
+**Response:**
+```json
+{
+  "connection_address": "ws://localhost:3000",
+  "memory": {
+    "total": 17179869184,
+    "used": 8589934592,
+    "free": 8589934592
+  },
+  "cpu": 8,
+  "disk_space": {
+    "used": 0,
+    "max": 107374182400,
+    "allow": 107374182400
+  },
+  "total_instances": 0,
+  "running_instances": 0,
+  "stopped_instances": 0,
+  "platform": "windows",
+  "version": {
+    "node": "v20.19.5",
+    "server": "1.0.0"
+  }
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token"
+}
+```
+
+### PM2 List
+Retrieve the list of PM2 managed processes. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-list"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-list",
+  "data": [
+    {
+      "pid": 1234,
+      "name": "app",
+      "status": "online"
+    }
+  ]
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
 ## Project Structure
 
 ```
 src/
-├── app.module.ts          # Main application module
-├── main.ts                # Application entry point
+├── app.module.ts              # Main application module
+├── main.ts                    # Application entry point
+├── auditlog/
+│   ├── auditlog.exception-filter.ts # Exception filter for audit logging
+│   ├── auditlog.module.ts     # Audit logging module
+│   └── auditlog.service.ts    # Audit logging service
+├── connect/
+│   ├── connect.module.ts      # Connection module
+│   └── connect.service.ts     # Connection service
+├── meoguard/
+│   ├── meoguard.guard.ts      # Custom authentication guard
+│   └── meoguard.module.ts     # Guard module
 ├── ping/
-│   ├── ping.controller.ts # REST API controller
-│   ├── ping.service.ts    # Ping service logic
-│   └── ping.module.ts     # Ping module
+│   ├── ping.controller.ts     # REST API controller
+│   ├── ping.module.ts         # Ping module
+│   └── ping.service.ts        # Ping service logic
+├── pm2/
+│   ├── pm2.module.ts          # PM2 management module
+│   └── pm2.service.ts         # PM2 service for process management
 └── ws/
-    └── websocket.gateway.ts # WebSocket gateway (if implemented)
+    ├── ws.gateway.ts          # WebSocket gateway
+    └── ws.module.ts           # WebSocket module
 ```
 
 ## Scripts
@@ -125,6 +221,8 @@ src/
 - [NestJS](https://nestjs.com/) - Node.js framework
 - [TypeScript](https://www.typescriptlang.org/) - Programming language
 - [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API) - Real-time communication
+- [PM2](https://pm2.keymetrics.io/) - Process manager for Node.js applications
+- [Winston](https://github.com/winstonjs/winston) - Logging library
 - [RxJS](https://rxjs.dev/) - Reactive programming
 
 ## Contributing

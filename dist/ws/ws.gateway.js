@@ -1,43 +1,10 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
@@ -47,45 +14,61 @@ const websockets_1 = require("@nestjs/websockets");
 const ws_1 = require("ws");
 const ping_service_1 = require("../ping/ping.service");
 const connect_service_1 = require("../connect/connect.service");
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
-const crypto_1 = require("crypto");
+const pm2_service_1 = require("../pm2/pm2.service");
+const meoguard_guard_1 = require("../meoguard/meoguard.guard");
 let WsGateway = class WsGateway {
     pingService;
     connectService;
+    pm2Service;
+    meoGuard;
     server;
-    connectData;
-    constructor(pingService, connectService) {
+    constructor(pingService, connectService, pm2Service, meoGuard) {
         this.pingService = pingService;
         this.connectService = connectService;
-    }
-    onModuleInit() {
-        const filePath = path.join(__dirname, '../../connect.json');
-        if (fs.existsSync(filePath)) {
-            this.connectData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
-            if (!this.connectData.uuid || !this.connectData.token) {
-                this.generateConnectData(filePath);
-            }
-        }
-        else {
-            this.generateConnectData(filePath);
-        }
-    }
-    generateConnectData(filePath) {
-        this.connectData = {
-            uuid: (0, crypto_1.randomUUID)(),
-            token: (0, crypto_1.randomUUID)().replace(/-/g, ''),
-        };
-        fs.writeFileSync(filePath, JSON.stringify(this.connectData, null, 2));
+        this.pm2Service = pm2Service;
+        this.meoGuard = meoGuard;
     }
     handleConnection(client) {
-        client.on('message', (message) => {
+        client.on('message', async (message) => {
             const msg = message.toString();
             try {
                 const data = JSON.parse(msg);
-                if (data.uuid === this.connectData.uuid &&
-                    data.token === this.connectData.token) {
-                    client.send(JSON.stringify(this.connectService.connect()));
+                if (data.command === 'pm2-list') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const processList = await this.pm2Service.getProcessList();
+                            client.send(JSON.stringify({
+                                type: 'pm2-list',
+                                data: processList,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to get PM2 process list',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.uuid && data.token) {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        client.send(JSON.stringify(this.connectService.connect()));
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token',
+                        }));
+                    }
                 }
             }
             catch {
@@ -106,6 +89,8 @@ __decorate([
 exports.WsGateway = WsGateway = __decorate([
     (0, websockets_1.WebSocketGateway)(),
     __metadata("design:paramtypes", [ping_service_1.PingService,
-        connect_service_1.ConnectService])
+        connect_service_1.ConnectService,
+        pm2_service_1.Pm2Service,
+        meoguard_guard_1.MeoGuard])
 ], WsGateway);
 //# sourceMappingURL=ws.gateway.js.map
