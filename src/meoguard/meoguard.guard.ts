@@ -28,22 +28,34 @@ export class MeoGuard implements CanActivate {
     const ip = request.connection.remoteAddress || request.socket.remoteAddress;
 
     // Log connection attempt
-    this.auditlogService.logInfo('WebSocket', `Connection attempt from IP: ${ip}`);
+    this.auditlogService.logInfo(
+      'WebSocket',
+      `Connection attempt from IP: ${ip}`,
+    );
 
     // Validate credentials
     const isValid = await this.validateCredentials(token, uuid);
 
     if (!isValid) {
-      this.auditlogService.logError('WebSocket authentication failed', 'Auth', { ip, token: token?.substring(0, 10) + '...' });
+      this.auditlogService.logError('WebSocket authentication failed', 'Auth', {
+        ip,
+        token: token?.substring(0, 10) + '...',
+      });
       throw new WsException('Unauthorized');
     }
 
     // Log successful connection
-    this.auditlogService.logInfo('WebSocket', `Authenticated connection from IP: ${ip}`);
+    this.auditlogService.logInfo(
+      'WebSocket',
+      `Authenticated connection from IP: ${ip}`,
+    );
     return true;
   }
 
-  async validateMessageCredentials(token: string, uuid: string): Promise<boolean> {
+  async validateMessageCredentials(
+    token: string,
+    uuid: string,
+  ): Promise<boolean> {
     if (!token || !uuid || !this.connectData) {
       return false;
     }
@@ -51,7 +63,10 @@ export class MeoGuard implements CanActivate {
     return token === this.connectData.token && uuid === this.connectData.uuid;
   }
 
-  private async validateCredentials(token: string, uuid: string): Promise<boolean> {
+  private async validateCredentials(
+    token: string,
+    uuid: string,
+  ): Promise<boolean> {
     // For connection-level auth, use the same validation as message auth
     return this.validateMessageCredentials(token, uuid);
   }

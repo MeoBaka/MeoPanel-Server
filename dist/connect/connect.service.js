@@ -96,15 +96,15 @@ let ConnectService = class ConnectService {
         };
     }
     async getCpuUsage() {
-        const start = os.cpus().map(cpu => ({
+        const start = os.cpus().map((cpu) => ({
             user: cpu.times.user,
             nice: cpu.times.nice,
             sys: cpu.times.sys,
             idle: cpu.times.idle,
             irq: cpu.times.irq,
         }));
-        await new Promise(resolve => setTimeout(resolve, 100));
-        const end = os.cpus().map(cpu => ({
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        const end = os.cpus().map((cpu) => ({
             user: cpu.times.user,
             nice: cpu.times.nice,
             sys: cpu.times.sys,
@@ -117,11 +117,16 @@ let ConnectService = class ConnectService {
             const startTimes = start[i];
             const endTimes = end[i];
             const idle = endTimes.idle - startTimes.idle;
-            const tick = (endTimes.user - startTimes.user) + (endTimes.nice - startTimes.nice) + (endTimes.sys - startTimes.sys) + (endTimes.idle - startTimes.idle) + (endTimes.irq - startTimes.irq);
+            const tick = endTimes.user -
+                startTimes.user +
+                (endTimes.nice - startTimes.nice) +
+                (endTimes.sys - startTimes.sys) +
+                (endTimes.idle - startTimes.idle) +
+                (endTimes.irq - startTimes.irq);
             totalIdle += idle;
             totalTick += tick;
         }
-        const usage = 100 - ~~(100 * totalIdle / totalTick);
+        const usage = 100 - ~~((100 * totalIdle) / totalTick);
         return usage;
     }
     getDiskSpace() {
@@ -204,7 +209,7 @@ let ConnectService = class ConnectService {
         try {
             const processList = await this.pm2Service.getProcessList();
             const total = processList.length;
-            const running = processList.filter(proc => proc.pm2_env.status === 'online').length;
+            const running = processList.filter((proc) => proc.pm2_env.status === 'online').length;
             const stopped = total - running;
             return {
                 total,

@@ -10,7 +10,10 @@ export class AuditlogService {
   private logger: winston.Logger;
 
   constructor(private configService: ConfigService) {
-    const logDir = this.configService?.get<string>('LOG_DIR') || process.env.LOG_DIR || './meopanel/logs';
+    const logDir =
+      this.configService?.get<string>('LOG_DIR') ||
+      process.env.LOG_DIR ||
+      './meopanel/logs';
 
     // Ensure log directory exists
     if (!fs.existsSync(logDir)) {

@@ -70,7 +70,10 @@ let MeoGuard = class MeoGuard {
         this.auditlogService.logInfo('WebSocket', `Connection attempt from IP: ${ip}`);
         const isValid = await this.validateCredentials(token, uuid);
         if (!isValid) {
-            this.auditlogService.logError('WebSocket authentication failed', 'Auth', { ip, token: token?.substring(0, 10) + '...' });
+            this.auditlogService.logError('WebSocket authentication failed', 'Auth', {
+                ip,
+                token: token?.substring(0, 10) + '...',
+            });
             throw new websockets_1.WsException('Unauthorized');
         }
         this.auditlogService.logInfo('WebSocket', `Authenticated connection from IP: ${ip}`);

@@ -18,6 +18,8 @@ async function bootstrap() {
   await app.listen(port);
 
   // Log server startup with port
-  app.get(AuditlogService).logInfo('Startup', `Application is running on: http://localhost:${port}`);
+  app
+    .get(AuditlogService)
+    .logInfo('Startup', `Application is running on: http://localhost:${port}`);
 }
 bootstrap();

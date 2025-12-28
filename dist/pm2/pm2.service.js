@@ -63,42 +63,165 @@ let Pm2Service = class Pm2Service {
             });
         });
     }
-    async stopProcess(name) {
+    async stopProcess(id) {
         return new Promise((resolve, reject) => {
-            pm2_1.default.stop(name, (err, proc) => {
+            pm2_1.default.stop(id, (err, proc) => {
                 if (err) {
                     this.auditlogService.logError('Failed to stop PM2 process', 'PM2', err);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Stopped process: ${name}`);
+                this.auditlogService.logInfo('PM2', `Stopped process: ${id}`);
                 resolve(proc);
             });
         });
     }
-    async restartProcess(name) {
+    async restartProcess(id) {
         return new Promise((resolve, reject) => {
-            pm2_1.default.restart(name, (err, proc) => {
+            pm2_1.default.restart(id, (err, proc) => {
                 if (err) {
                     this.auditlogService.logError('Failed to restart PM2 process', 'PM2', err);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Restarted process: ${name}`);
+                this.auditlogService.logInfo('PM2', `Restarted process: ${id}`);
                 resolve(proc);
             });
         });
     }
-    async deleteProcess(name) {
+    async deleteProcess(id) {
         return new Promise((resolve, reject) => {
-            pm2_1.default.delete(name, (err, proc) => {
+            pm2_1.default.delete(id, (err, proc) => {
                 if (err) {
                     this.auditlogService.logError('Failed to delete PM2 process', 'PM2', err);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Deleted process: ${name}`);
+                this.auditlogService.logInfo('PM2', `Deleted process: ${id}`);
                 resolve(proc);
+            });
+        });
+    }
+    async multiStart(processes) {
+        const promises = processes.map((proc) => this.startProcess(proc.script, proc.name));
+        return Promise.all(promises);
+    }
+    async multiStop(ids) {
+        const promises = ids.map((id) => this.stopProcess(id));
+        return Promise.all(promises);
+    }
+    async multiRestart(ids) {
+        const promises = ids.map((id) => this.restartProcess(id));
+        return Promise.all(promises);
+    }
+    async multiDelete(ids) {
+        const promises = ids.map((id) => this.deleteProcess(id));
+        return Promise.all(promises);
+    }
+    async resurrect() {
+        return new Promise((resolve, reject) => {
+            pm2_1.default.resurrect((err) => {
+                if (err) {
+                    this.auditlogService.logError('Failed to resurrect PM2 processes', 'PM2', err);
+                    reject(err);
+                    return;
+                }
+                this.auditlogService.logInfo('PM2', 'Resurrected processes');
+                resolve({});
+            });
+        });
+    }
+    async save() {
+        return new Promise((resolve, reject) => {
+            pm2_1.default.dump((err) => {
+                if (err) {
+                    this.auditlogService.logError('Failed to save PM2 processes', 'PM2', err);
+                    reject(err);
+                    return;
+                }
+                this.auditlogService.logInfo('PM2', 'Saved PM2 processes');
+                resolve({});
+            });
+        });
+    }
+    async getLogs(id, lines = 200) {
+        return new Promise((resolve, reject) => {
+            pm2_1.default.describe(id, (err, proc) => {
+                if (err) {
+                    this.auditlogService.logError('Failed to describe PM2 process', 'PM2', err);
+                    reject(err);
+                    return;
+                }
+                if (!proc || proc.length === 0) {
+                    reject(new Error('Process not found'));
+                    return;
+                }
+                const pm2Env = proc[0].pm2_env;
+                if (!pm2Env) {
+                    reject(new Error('PM2 env not found'));
+                    return;
+                }
+                const logFile = pm2Env.pm_out_log_path || pm2Env.pm_log_path;
+                if (!logFile) {
+                    reject(new Error('Log file not found'));
+                    return;
+                }
+                const fs = require('fs');
+                fs.readFile(logFile, 'utf8', (err, data) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    const linesArray = data.split('\n').filter((line) => line.trim());
+                    const lastLines = linesArray.slice(-lines);
+                    resolve({ logs: lastLines, logFile });
+                });
+            });
+        });
+    }
+    async sendSignal(id, signal) {
+        return new Promise((resolve, reject) => {
+            pm2_1.default.sendSignalToProcessName(signal, id, (err, proc) => {
+                if (err) {
+                    this.auditlogService.logError('Failed to send signal to PM2 process', 'PM2', err);
+                    reject(err);
+                    return;
+                }
+                this.auditlogService.logInfo('PM2', `Sent signal ${signal} to process: ${id}`);
+                resolve(proc);
+            });
+        });
+    }
+    async sendData(id, data) {
+        return new Promise((resolve, reject) => {
+            pm2_1.default.describe(id, (err, proc) => {
+                if (err) {
+                    this.auditlogService.logError('Failed to describe PM2 process', 'PM2', err);
+                    reject(err);
+                    return;
+                }
+                if (!proc || proc.length === 0) {
+                    reject(new Error('Process not found'));
+                    return;
+                }
+                const pm2Env = proc[0].pm2_env;
+                if (!pm2Env) {
+                    reject(new Error('PM2 env not found'));
+                    return;
+                }
+                const pmId = proc[0].pm_id;
+                if (pm2Env.status !== 'online') {
+                    reject(new Error(`Process is not online (status: ${pm2Env.status})`));
+                    return;
+                }
+                pm2_1.default.sendDataToProcessId({ id: pmId, data: data, topic: 'message' }, (err, res) => {
+                    if (err) {
+                        reject(err);
+                        return;
+                    }
+                    this.auditlogService.logInfo('PM2', `Sent data to process: ${id}`);
+                    resolve(res);
+                });
             });
         });
     }

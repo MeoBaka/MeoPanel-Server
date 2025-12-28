@@ -54,7 +54,9 @@ let AuditlogService = class AuditlogService {
     logger;
     constructor(configService) {
         this.configService = configService;
-        const logDir = this.configService?.get('LOG_DIR') || process.env.LOG_DIR || './meopanel/logs';
+        const logDir = this.configService?.get('LOG_DIR') ||
+            process.env.LOG_DIR ||
+            './meopanel/logs';
         if (!fs.existsSync(logDir)) {
             fs.mkdirSync(logDir, { recursive: true });
         }

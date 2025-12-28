@@ -11,7 +11,9 @@ async function bootstrap() {
     app.useGlobalFilters(app.get(auditlog_exception_filter_1.AuditlogExceptionFilter));
     const port = process.env.HWSPORT || 3000;
     await app.listen(port);
-    app.get(auditlog_service_1.AuditlogService).logInfo('Startup', `Application is running on: http://localhost:${port}`);
+    app
+        .get(auditlog_service_1.AuditlogService)
+        .logInfo('Startup', `Application is running on: http://localhost:${port}`);
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

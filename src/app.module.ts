@@ -6,6 +6,7 @@ import { ConnectModule } from './connect/connect.module';
 import { AuditlogModule } from './auditlog/auditlog.module';
 import { Pm2Module } from './pm2/pm2.module';
 import { MeoguardModule } from './meoguard/meoguard.module';
+import { ConsoleModule } from './console/console.module';
 
 @Module({
   imports: [

@@ -16,12 +16,14 @@ const ping_service_1 = require("../ping/ping.service");
 const connect_service_1 = require("../connect/connect.service");
 const pm2_service_1 = require("../pm2/pm2.service");
 const meoguard_guard_1 = require("../meoguard/meoguard.guard");
+const fs = require('fs');
 let WsGateway = class WsGateway {
     pingService;
     connectService;
     pm2Service;
     meoGuard;
     server;
+    logWatchers = new Map();
     constructor(pingService, connectService, pm2Service, meoGuard) {
         this.pingService = pingService;
         this.connectService = connectService;
@@ -87,7 +89,7 @@ let WsGateway = class WsGateway {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
                         try {
-                            const result = await this.pm2Service.stopProcess(data.name);
+                            const result = await this.pm2Service.stopProcess(parseInt(data.id));
                             client.send(JSON.stringify({
                                 type: 'pm2-stop',
                                 data: result,
@@ -112,7 +114,7 @@ let WsGateway = class WsGateway {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
                         try {
-                            const result = await this.pm2Service.restartProcess(data.name);
+                            const result = await this.pm2Service.restartProcess(parseInt(data.id));
                             client.send(JSON.stringify({
                                 type: 'pm2-restart',
                                 data: result,
@@ -137,7 +139,7 @@ let WsGateway = class WsGateway {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
                         try {
-                            const result = await this.pm2Service.deleteProcess(data.name);
+                            const result = await this.pm2Service.deleteProcess(parseInt(data.id));
                             client.send(JSON.stringify({
                                 type: 'pm2-delete',
                                 data: result,
@@ -156,6 +158,241 @@ let WsGateway = class WsGateway {
                             type: 'error',
                             message: 'Unauthorized: Invalid UUID or token for PM2 command',
                         }));
+                    }
+                }
+                else if (data.command === 'pm2-multi-start') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.multiStart(data.processes);
+                            client.send(JSON.stringify({
+                                type: 'pm2-multi-start',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to start multiple PM2 processes',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-multi-stop') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.multiStop(data.ids.map(id => parseInt(id)));
+                            client.send(JSON.stringify({
+                                type: 'pm2-multi-stop',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to stop multiple PM2 processes',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-multi-restart') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.multiRestart(data.ids.map(id => parseInt(id)));
+                            client.send(JSON.stringify({
+                                type: 'pm2-multi-restart',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to restart multiple PM2 processes',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-multi-delete') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.multiDelete(data.ids.map(id => parseInt(id)));
+                            client.send(JSON.stringify({
+                                type: 'pm2-multi-delete',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to delete multiple PM2 processes',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-resurrect') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.resurrect();
+                            client.send(JSON.stringify({
+                                type: 'pm2-resurrect',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to resurrect PM2 processes',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-save') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.save();
+                            client.send(JSON.stringify({
+                                type: 'pm2-save',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to save PM2 processes',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-logs') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.getLogs(parseInt(data.id), data.lines || 200);
+                            client.send(JSON.stringify({
+                                type: 'pm2-logs',
+                                data: result.logs,
+                            }));
+                            const watcherKey = `${client.id}-${data.id}`;
+                            const existing = this.logWatchers.get(watcherKey);
+                            if (existing) {
+                                fs.unwatchFile(existing.logFile);
+                                this.logWatchers.delete(watcherKey);
+                            }
+                            let lastSize = fs.statSync(result.logFile).size;
+                            fs.watchFile(result.logFile, { interval: 1000 }, (curr, prev) => {
+                                if (curr.size > lastSize) {
+                                    const stream = fs.createReadStream(result.logFile, { start: lastSize, end: curr.size - 1, encoding: 'utf8' });
+                                    let newData = '';
+                                    stream.on('data', (chunk) => {
+                                        newData += chunk;
+                                    });
+                                    stream.on('end', () => {
+                                        const newLines = newData.split('\n').filter(line => line.trim());
+                                        if (newLines.length > 0) {
+                                            client.send(JSON.stringify({
+                                                type: 'pm2-logs',
+                                                data: newLines,
+                                            }));
+                                        }
+                                        lastSize = curr.size;
+                                    });
+                                }
+                            });
+                            this.logWatchers.set(watcherKey, { logFile: result.logFile, lastSize });
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to get PM2 logs',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-send') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.sendData(parseInt(data.id), data.data);
+                            client.send(JSON.stringify({
+                                type: 'pm2-send',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: `Failed to send data to PM2 process: ${error.message}`,
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-stop-logs') {
+                    const watcherKey = `${client.id}-${data.id}`;
+                    const entry = this.logWatchers.get(watcherKey);
+                    if (entry) {
+                        fs.unwatchFile(entry.logFile);
+                        this.logWatchers.delete(watcherKey);
                     }
                 }
                 else if (data.command === 'status') {
@@ -201,6 +438,12 @@ let WsGateway = class WsGateway {
         });
     }
     handleDisconnect(client) {
+        for (const [key, entry] of this.logWatchers.entries()) {
+            if (key.startsWith(`${client.id}-`)) {
+                fs.unwatchFile(entry.logFile);
+                this.logWatchers.delete(key);
+            }
+        }
     }
 };
 exports.WsGateway = WsGateway;

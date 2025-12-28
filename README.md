@@ -39,11 +39,21 @@ MeoPanel Server is built with [NestJS](https://nestjs.com/), a progressive Node.
    HWSPORT=3000
    ```
 
+5. Configure `connect.json` for WebSocket authentication:
+   ```json
+   {
+     "uuid": "your-uuid",
+     "token": "your-token"
+   }
+   ```
+
 ## Configuration
 
 The application uses environment variables for configuration. Create a `.env` file in the root directory with the following variables:
 
 - `HWSPORT`: The port number on which the server will listen (default: 3000)
+
+Additionally, a `connect.json` file is required for WebSocket authentication. This file should contain the UUID and token for connecting to the server.
 
 ## Running the Application
 
@@ -97,8 +107,8 @@ ping
 }
 ```
 
-### Connect
-Get system information using UUID and token from `connect.json`.
+### Connect (Legacy)
+Get system information using UUID and token from `connect.json`. Note: This is the legacy method. Use the 'status' command instead.
 
 **Request:**
 ```json
@@ -175,6 +185,412 @@ Retrieve the list of PM2 managed processes. Requires authentication with UUID an
   "message": "Unauthorized: Invalid UUID or token for PM2 command"
 }
 ```
+
+### Status
+Get system information using UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "status"
+}
+```
+
+**Response:**
+```json
+{
+  "connection_address": "ws://localhost:3000",
+  "memory": {
+    "total": 17179869184,
+    "used": 8589934592,
+    "free": 8589934592
+  },
+  "cpu": 8,
+  "disk_space": {
+    "used": 0,
+    "max": 107374182400,
+    "allow": 107374182400
+  },
+  "total_instances": 0,
+  "running_instances": 0,
+  "stopped_instances": 0,
+  "platform": "windows",
+  "version": {
+    "node": "v20.19.5",
+    "server": "1.0.0"
+  }
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for status command"
+}
+```
+
+### PM2 Start
+Start a new PM2 process. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-start",
+  "script": "path/to/script.js",
+  "name": "process-name"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-start",
+  "data": { ... }
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Stop
+Stop a PM2 process. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-stop",
+  "id": 123
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-stop",
+  "data": { ... }
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Restart
+Restart a PM2 process. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-restart",
+  "id": 123
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-restart",
+  "data": { ... }
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Delete
+Delete a PM2 process. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-delete",
+  "id": 123
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-delete",
+  "data": { ... }
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Multi-Start
+Start multiple PM2 processes. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-multi-start",
+  "processes": [
+    {
+      "script": "path/to/script1.js",
+      "name": "process1"
+    },
+    {
+      "script": "path/to/script2.js",
+      "name": "process2"
+    }
+  ]
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-multi-start",
+  "data": [ ... ]
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Multi-Stop
+Stop multiple PM2 processes. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-multi-stop",
+  "ids": [1, 2]
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-multi-stop",
+  "data": [ ... ]
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Multi-Restart
+Restart multiple PM2 processes. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-multi-restart",
+  "ids": [1, 2]
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-multi-restart",
+  "data": [ ... ]
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Multi-Delete
+Delete multiple PM2 processes. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-multi-delete",
+  "ids": [1, 2]
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-multi-delete",
+  "data": [ ... ]
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Resurrect
+Resurrect PM2 processes from the saved dump. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-resurrect"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-resurrect",
+  "data": {}
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Save
+Save the current PM2 process list to a dump file. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-save"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-save",
+  "data": {}
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Logs
+Get the last 200 lines of logs for a PM2 process. Requires authentication with UUID and token from `connect.json`.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-logs",
+  "id": 123,
+  "lines": 200
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-logs",
+  "data": ["log line 1", "log line 2", ...]
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+### PM2 Send
+Send data to a PM2 process. This allows sending messages or commands to running Node.js processes that listen for messages. Requires authentication with UUID and token from `connect.json`. The process must be started in fork mode and have a `process.on('message')` handler.
+
+**Request:**
+```json
+{
+  "uuid": "your-uuid",
+  "token": "your-token",
+  "command": "pm2-send",
+  "id": 123,
+  "data": "message or command to send"
+}
+```
+
+**Response:**
+```json
+{
+  "type": "pm2-send",
+  "data": { ... }
+}
+```
+
+**Error Response (Unauthorized):**
+```json
+{
+  "type": "error",
+  "message": "Unauthorized: Invalid UUID or token for PM2 command"
+}
+```
+
+**Note:** This is used by the MeoPanel client to send data to processes. For example, sending "5+5" to a Node.js process that evaluates expressions. The process must be a Node.js application running in fork mode with message handling.
 
 ## Project Structure
 

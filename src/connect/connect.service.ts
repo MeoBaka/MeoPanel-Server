@@ -61,7 +61,7 @@ export class ConnectService {
   }
 
   private async getCpuUsage(): Promise<number> {
-    const start = os.cpus().map(cpu => ({
+    const start = os.cpus().map((cpu) => ({
       user: cpu.times.user,
       nice: cpu.times.nice,
       sys: cpu.times.sys,
@@ -69,9 +69,9 @@ export class ConnectService {
       irq: cpu.times.irq,
     }));
 
-    await new Promise(resolve => setTimeout(resolve, 100)); // wait 100ms
+    await new Promise((resolve) => setTimeout(resolve, 100)); // wait 100ms
 
-    const end = os.cpus().map(cpu => ({
+    const end = os.cpus().map((cpu) => ({
       user: cpu.times.user,
       nice: cpu.times.nice,
       sys: cpu.times.sys,
@@ -86,12 +86,18 @@ export class ConnectService {
       const startTimes = start[i];
       const endTimes = end[i];
       const idle = endTimes.idle - startTimes.idle;
-      const tick = (endTimes.user - startTimes.user) + (endTimes.nice - startTimes.nice) + (endTimes.sys - startTimes.sys) + (endTimes.idle - startTimes.idle) + (endTimes.irq - startTimes.irq);
+      const tick =
+        endTimes.user -
+        startTimes.user +
+        (endTimes.nice - startTimes.nice) +
+        (endTimes.sys - startTimes.sys) +
+        (endTimes.idle - startTimes.idle) +
+        (endTimes.irq - startTimes.irq);
       totalIdle += idle;
       totalTick += tick;
     }
 
-    const usage = 100 - ~~(100 * totalIdle / totalTick);
+    const usage = 100 - ~~((100 * totalIdle) / totalTick);
     return usage;
   }
 
@@ -182,11 +188,17 @@ export class ConnectService {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   }
 
-  private async getPm2Stats(): Promise<{ total: number; running: number; stopped: number }> {
+  private async getPm2Stats(): Promise<{
+    total: number;
+    running: number;
+    stopped: number;
+  }> {
     try {
       const processList = await this.pm2Service.getProcessList();
       const total = processList.length;
-      const running = processList.filter(proc => proc.pm2_env.status === 'online').length;
+      const running = processList.filter(
+        (proc) => proc.pm2_env.status === 'online',
+      ).length;
       const stopped = total - running;
 
       return {
