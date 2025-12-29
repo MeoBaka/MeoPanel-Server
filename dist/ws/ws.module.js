@@ -11,12 +11,14 @@ const common_1 = require("@nestjs/common");
 const ws_gateway_1 = require("./ws.gateway");
 const ping_module_1 = require("../ping/ping.module");
 const connect_module_1 = require("../connect/connect.module");
+const pm2_module_1 = require("../pm2/pm2.module");
+const meoguard_module_1 = require("../meoguard/meoguard.module");
 let WsModule = class WsModule {
 };
 exports.WsModule = WsModule;
 exports.WsModule = WsModule = __decorate([
     (0, common_1.Module)({
-        imports: [ping_module_1.PingModule, connect_module_1.ConnectModule],
+        imports: [ping_module_1.PingModule, connect_module_1.ConnectModule, pm2_module_1.Pm2Module, meoguard_module_1.MeoguardModule],
         providers: [ws_gateway_1.WsGateway],
     })
 ], WsModule);

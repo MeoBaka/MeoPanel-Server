@@ -1,0 +1,35 @@
+[Nest] 14064  - 07:40:18 29/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 14064  - 07:40:18 29/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 14064  - 07:40:45 29/12/2025     LOG [PM2] Resurrected processes +27s
+[Nest] 14064  - 07:40:52 29/12/2025     LOG [PM2] Sent data to process: 10 +8s
+[Nest] 14064  - 07:41:27 29/12/2025     LOG [PM2] Sent data to process: 10 +35s
+[Nest] 14064  - 07:41:29 29/12/2025     LOG [PM2] Sent data to process: 10 +2s
+[Nest] 1788  - 08:44:31 29/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 1788  - 08:44:31 29/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +7ms
+[Nest] 1788  - 08:45:07 29/12/2025     LOG [PM2] Sent data to process: 10 +36s
+[Nest] 4984  - 08:45:12 29/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 4984  - 08:45:12 29/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +7ms
+[Nest] 23652  - 08:45:47 29/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 23652  - 08:45:47 29/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +7ms
+[Nest] 23652  - 08:45:56 29/12/2025     LOG [PM2] Executed pm2 send command successfully: pm2 send 10 "24+15" +9s
+[Nest] 23652  - 08:46:04 29/12/2025     LOG [PM2] Executed pm2 send command successfully: pm2 send 10 "33+1" +8s
+[Nest] 23652  - 08:46:07 29/12/2025     LOG [PM2] Executed pm2 send command successfully: pm2 send 10 "35+662" +3s
+[Nest] 23652  - 08:46:40 29/12/2025     LOG [PM2] Deleted process: 4 +33s
+[Nest] 23652  - 08:46:46 29/12/2025     LOG [PM2] Resurrected processes +6s
+[Nest] 23652  - 08:46:52 29/12/2025     LOG [PM2] Deleted process: 5 +5s
+[Nest] 23652  - 08:46:55 29/12/2025     LOG [PM2] Deleted process: 11 +3s
+[Nest] 23652  - 08:46:57 29/12/2025     LOG [PM2] Saved PM2 processes +2s
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 1 +5s
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 6 +50ms
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 2 +1ms
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 8 +2ms
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 7 +23ms
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 9 +21ms
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 10 +15ms
+[Nest] 23652  - 08:47:01 29/12/2025     LOG [PM2] Deleted process: 3 +77ms
+[Nest] 23652  - 08:47:08 29/12/2025     LOG [PM2] Resurrected processes +7s
+[Nest] 23652  - 08:52:40 29/12/2025     LOG [PM2] Saved PM2 processes +6m
+[Nest] 25116  - 09:09:10 29/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 25116  - 09:09:10 29/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 26260  - 09:36:36 29/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 26260  - 09:36:36 29/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms

@@ -12,14 +12,25 @@ const config_1 = require("@nestjs/config");
 const ping_module_1 = require("./ping/ping.module");
 const ws_module_1 = require("./ws/ws.module");
 const connect_module_1 = require("./connect/connect.module");
+const auditlog_module_1 = require("./auditlog/auditlog.module");
+const pm2_module_1 = require("./pm2/pm2.module");
+const meoguard_module_1 = require("./meoguard/meoguard.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [config_1.ConfigModule.forRoot({
+        imports: [
+            config_1.ConfigModule.forRoot({
                 isGlobal: true,
-            }), ping_module_1.PingModule, ws_module_1.WsModule, connect_module_1.ConnectModule],
+            }),
+            auditlog_module_1.AuditlogModule,
+            pm2_module_1.Pm2Module,
+            meoguard_module_1.MeoguardModule,
+            ping_module_1.PingModule,
+            ws_module_1.WsModule,
+            connect_module_1.ConnectModule,
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

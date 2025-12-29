@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "meopanel\\logs\\.d987cb3a9a25b14000fde3c863f1451419899bec-audit.json",
+    "files": [
+        {
+            "date": 1766849746359,
+            "name": "meopanel\\logs\\app-2025-12-27.log",
+            "hash": "0a866c0d08fe28d6a8edcaaf974e8cd3ed45e0959e57bd8d894772cddbe9c514"
+        },
+        {
+            "date": 1766855322734,
+            "name": "meopanel\\logs\\app-2025-12-28.log",
+            "hash": "25bb40214522842749faff772c5553a6ba76ae3e670f950fdb313027c549c00e"
+        },
+        {
+            "date": 1766968815557,
+            "name": "meopanel\\logs\\app-2025-12-29.log",
+            "hash": "08953828c14d9f09f5f8a3ce879cc8d497d44790dbc8ca5992a0a557746ec528"
+        }
+    ],
+    "hashType": "sha256"
+}
