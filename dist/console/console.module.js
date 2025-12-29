@@ -6,19 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Pm2Module = void 0;
+exports.ConsoleModule = void 0;
 const common_1 = require("@nestjs/common");
-const pm2_service_1 = require("./pm2.service");
-const auditlog_module_1 = require("../auditlog/auditlog.module");
-const console_module_1 = require("../console/console.module");
-let Pm2Module = class Pm2Module {
+const console_service_1 = require("./console.service");
+let ConsoleModule = class ConsoleModule {
 };
-exports.Pm2Module = Pm2Module;
-exports.Pm2Module = Pm2Module = __decorate([
+exports.ConsoleModule = ConsoleModule;
+exports.ConsoleModule = ConsoleModule = __decorate([
     (0, common_1.Module)({
-        imports: [auditlog_module_1.AuditlogModule, console_module_1.ConsoleModule],
-        providers: [pm2_service_1.Pm2Service],
-        exports: [pm2_service_1.Pm2Service],
+        providers: [console_service_1.ConsoleService],
+        exports: [console_service_1.ConsoleService],
     })
-], Pm2Module);
-//# sourceMappingURL=pm2.module.js.map
+], ConsoleModule);
+//# sourceMappingURL=console.module.js.map

@@ -1,8 +1,16 @@
 import { OnModuleInit } from '@nestjs/common';
 import { AuditlogService } from '../auditlog/auditlog.service';
+import { ConsoleService } from '../console/console.service';
 export declare class Pm2Service implements OnModuleInit {
     private auditlogService;
-    constructor(auditlogService: AuditlogService);
+    private consoleService;
+    private notesFile;
+    private notes;
+    constructor(auditlogService: AuditlogService, consoleService: ConsoleService);
+    private loadNotes;
+    private saveNotes;
+    getNotes(serverId: string): Record<string, string>;
+    setNote(serverId: string, processName: string, note: string): void;
     onModuleInit(): Promise<void>;
     getProcessList(): Promise<any[]>;
     startProcess(script: string, name?: string): Promise<any>;

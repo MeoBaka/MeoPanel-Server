@@ -2,12 +2,56 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { AuditlogService } from '../auditlog/auditlog.service';
 import { ConsoleService } from '../console/console.service';
 import pm2 from 'pm2';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class Pm2Service implements OnModuleInit {
+  private notesFile = path.join(process.env.ROOT_DIR || './meopanel/data', 'pm2', 'notes.json');
+  private notes: Record<string, Record<string, string>> = {};
+
   constructor(private auditlogService: AuditlogService, private consoleService: ConsoleService) {}
 
+  private loadNotes() {
+    try {
+      if (fs.existsSync(this.notesFile)) {
+        const data = fs.readFileSync(this.notesFile, 'utf8');
+        this.notes = JSON.parse(data);
+      } else {
+        this.notes = {};
+      }
+    } catch (error) {
+      this.auditlogService.logError('Failed to load PM2 notes', 'PM2', error);
+      this.notes = {};
+    }
+  }
+
+  private saveNotes() {
+    try {
+      const dir = path.dirname(this.notesFile);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      fs.writeFileSync(this.notesFile, JSON.stringify(this.notes, null, 2));
+    } catch (error) {
+      this.auditlogService.logError('Failed to save PM2 notes', 'PM2', error);
+    }
+  }
+
+  getNotes(serverId: string): Record<string, string> {
+    return this.notes[serverId] || {};
+  }
+
+  setNote(serverId: string, processName: string, note: string) {
+    if (!this.notes[serverId]) {
+      this.notes[serverId] = {};
+    }
+    this.notes[serverId][processName] = note;
+    this.saveNotes();
+  }
+
   async onModuleInit() {
+    this.loadNotes();
     return new Promise<void>((resolve, reject) => {
       pm2.connect((err) => {
         if (err) {
@@ -266,20 +310,42 @@ export class Pm2Service implements OnModuleInit {
           return;
         }
         const pmId = proc[0].pm_id;
+        if (!pmId) {
+          reject(new Error('PM2 process ID not found'));
+          return;
+        }
         if (pm2Env.status !== 'online') {
           reject(new Error(`Process is not online (status: ${pm2Env.status})`));
           return;
         }
-        (pm2 as any).sendDataToProcessId({id: pmId, data: data, topic: 'message'}, (err, res) => {
-          if (err) {
-            reject(err);
-            return;
+        const { spawn } = require('child_process');
+        const pm2Process = spawn('pm2', ['send', pmId.toString(), data], { shell: true });
+
+        let stdout = '';
+        let stderr = '';
+
+        pm2Process.stdout.on('data', (data) => {
+          stdout += data.toString();
+        });
+
+        pm2Process.stderr.on('data', (data) => {
+          stderr += data.toString();
+        });
+
+        pm2Process.on('close', (code) => {
+          if (code === 0) {
+            this.auditlogService.logInfo(
+              'PM2',
+              `Executed pm2 send command successfully: pm2 send ${pmId} "${data}"`,
+            );
+            resolve({ stdout, stderr });
+          } else {
+            reject(new Error(`pm2 send failed with code ${code}: ${stderr}`));
           }
-          this.auditlogService.logInfo(
-            'PM2',
-            `Sent data to process: ${id}`,
-          );
-          resolve(res);
+        });
+
+        pm2Process.on('error', (error) => {
+          reject(error);
         });
       });
     });

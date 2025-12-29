@@ -537,6 +537,76 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           }
         }
 
+        // PM2 notes get command
+        else if (data.command === 'pm2-notes-get') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              const notes = this.pm2Service.getNotes(data.uuid);
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-notes-get',
+                  data: notes,
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to get PM2 notes',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 notes set command
+        else if (data.command === 'pm2-notes-set') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              this.pm2Service.setNote(data.uuid, data.process_name, data.note);
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-notes-set',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to set PM2 note',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
         // Status update command
         else if (data.command === 'status') {
           const isAuthenticated =
