@@ -32,14 +32,16 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleConnection(client: any) {
     client.id = `ws_${++this.clientCounter}`;
     this.activeConnections++;
-    console.log(`WS Connection established. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
+    // Connection established log removed - will log on authentication
 
     client.on('message', async (message: Buffer) => {
       const msg = message.toString();
       try {
         const data = JSON.parse(msg);
 
-        console.log(`WS Message from client ${client.id}: command ${data.command}`);
+        if (data.command) {
+          console.log(`WS Message from client ${client.clientName || client.id}: command ${data.command}`);
+        }
 
         // Handle PM2 commands
         if (data.command === 'pm2-list') {
@@ -653,6 +655,10 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
               data.uuid,
             );
           if (isAuthenticated) {
+            if (data.clientName) {
+              client.clientName = data.clientName;
+            }
+            console.log(`WS Client authenticated. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
             const connectData = await this.connectService.connect();
             client.send(JSON.stringify(connectData));
           } else {
@@ -674,7 +680,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleDisconnect(client: any) {
     this.activeConnections--;
-    console.log(`WS Connection closed. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
+    console.log(`WS Connection closed. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
 
     // Clean up all log watchers for this client
     for (const [key, entry] of this.logWatchers.entries()) {

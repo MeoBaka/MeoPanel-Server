@@ -35,12 +35,13 @@ let WsGateway = class WsGateway {
     handleConnection(client) {
         client.id = `ws_${++this.clientCounter}`;
         this.activeConnections++;
-        console.log(`WS Connection established. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
         client.on('message', async (message) => {
             const msg = message.toString();
             try {
                 const data = JSON.parse(msg);
-                console.log(`WS Message from client ${client.id}: command ${data.command}`);
+                if (data.command) {
+                    console.log(`WS Message from client ${client.clientName || client.id}: command ${data.command}`);
+                }
                 if (data.command === 'pm2-list') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
@@ -475,6 +476,10 @@ let WsGateway = class WsGateway {
                 else if (data.uuid && data.token) {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
+                        if (data.clientName) {
+                            client.clientName = data.clientName;
+                        }
+                        console.log(`WS Client authenticated. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
                         const connectData = await this.connectService.connect();
                         client.send(JSON.stringify(connectData));
                     }
@@ -495,7 +500,7 @@ let WsGateway = class WsGateway {
     }
     handleDisconnect(client) {
         this.activeConnections--;
-        console.log(`WS Connection closed. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
+        console.log(`WS Connection closed. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
         for (const [key, entry] of this.logWatchers.entries()) {
             if (key.startsWith(`${client.id}-`)) {
                 fs.unwatchFile(entry.logFile);
