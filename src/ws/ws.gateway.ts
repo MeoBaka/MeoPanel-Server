@@ -19,6 +19,8 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   private logWatchers: Map<string, { logFile: string, lastSize: number }> = new Map();
+  private activeConnections: number = 0;
+  private clientCounter: number = 0;
 
   constructor(
     private readonly pingService: PingService,
@@ -28,10 +30,16 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   ) {}
 
   handleConnection(client: any) {
+    client.id = `ws_${++this.clientCounter}`;
+    this.activeConnections++;
+    console.log(`WS Connection established. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
+
     client.on('message', async (message: Buffer) => {
       const msg = message.toString();
       try {
         const data = JSON.parse(msg);
+
+        console.log(`WS Message from client ${client.id}: command ${data.command}`);
 
         // Handle PM2 commands
         if (data.command === 'pm2-list') {
@@ -665,6 +673,9 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleDisconnect(client: any) {
+    this.activeConnections--;
+    console.log(`WS Connection closed. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
+
     // Clean up all log watchers for this client
     for (const [key, entry] of this.logWatchers.entries()) {
       if (key.startsWith(`${client.id}-`)) {

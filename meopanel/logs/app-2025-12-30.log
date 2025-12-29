@@ -1,0 +1,25 @@
+[Nest] 23096  - 00:40:34 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 23096  - 00:40:34 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 25100  - 01:40:09 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 25100  - 01:40:09 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 22704  - 01:40:10 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 22704  - 01:40:10 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +5ms
+[Nest] 14624  - 02:40:11 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 14624  - 02:40:11 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +7ms
+[Nest] 3740  - 02:40:12 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 5872  - 02:40:13 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 5872  - 02:40:13 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +5ms
+[Nest] 24244  - 03:36:03 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 24244  - 03:36:03 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 26872  - 03:36:43 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 26872  - 03:36:43 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 25360  - 03:38:01 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 25360  - 03:38:01 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 23140  - 03:40:15 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 23140  - 03:40:15 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +7ms
+[Nest] 23240  - 03:40:17 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 23240  - 03:40:17 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +5ms
+[Nest] 26768  - 03:48:10 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 26768  - 03:48:10 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 20196  - 03:48:17 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 20196  - 03:48:17 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms

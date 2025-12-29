@@ -24,6 +24,8 @@ let WsGateway = class WsGateway {
     meoGuard;
     server;
     logWatchers = new Map();
+    activeConnections = 0;
+    clientCounter = 0;
     constructor(pingService, connectService, pm2Service, meoGuard) {
         this.pingService = pingService;
         this.connectService = connectService;
@@ -31,10 +33,14 @@ let WsGateway = class WsGateway {
         this.meoGuard = meoGuard;
     }
     handleConnection(client) {
+        client.id = `ws_${++this.clientCounter}`;
+        this.activeConnections++;
+        console.log(`WS Connection established. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
         client.on('message', async (message) => {
             const msg = message.toString();
             try {
                 const data = JSON.parse(msg);
+                console.log(`WS Message from client ${client.id}: command ${data.command}`);
                 if (data.command === 'pm2-list') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
@@ -488,6 +494,8 @@ let WsGateway = class WsGateway {
         });
     }
     handleDisconnect(client) {
+        this.activeConnections--;
+        console.log(`WS Connection closed. Client ID: ${client.id}. Total active connections: ${this.activeConnections}`);
         for (const [key, entry] of this.logWatchers.entries()) {
             if (key.startsWith(`${client.id}-`)) {
                 fs.unwatchFile(entry.logFile);
