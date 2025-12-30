@@ -20,6 +20,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   private logWatchers: Map<string, { logFile: string, lastSize: number }> = new Map();
+  private listWatchers: Map<string, { interval: NodeJS.Timeout, lastList: string }> = new Map();
   private activeConnections: number = 0;
   private clientCounter: number = 0;
 
@@ -55,6 +56,17 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           if (isAuthenticated) {
             try {
               const processList = await this.pm2Service.getProcessList();
+              const listKey = `${client.id}-pm2-list`;
+              const listString = JSON.stringify(processList);
+
+              // Stop any existing watcher
+              const existing = this.listWatchers.get(listKey);
+              if (existing) {
+                clearInterval(existing.interval);
+                this.listWatchers.delete(listKey);
+              }
+
+              // Send initial data
               client.send(
                 JSON.stringify({
                   type: 'pm2-list',
@@ -62,6 +74,29 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
                   timestamp: data.timestamp,
                 }),
               );
+
+              // Set up realtime updates
+              const interval = setInterval(async () => {
+                try {
+                  const newList = await this.pm2Service.getProcessList();
+                  const newListString = JSON.stringify(newList);
+                  const watcher = this.listWatchers.get(listKey);
+                  if (watcher && newListString !== watcher.lastList) {
+                    client.send(
+                      JSON.stringify({
+                        type: 'pm2-list',
+                        data: newList,
+                      }),
+                    );
+                    // Update the stored list for comparison
+                    watcher.lastList = newListString;
+                  }
+                } catch (error) {
+                  // Ignore errors in interval
+                }
+              }, 1000); // Check every 1 second
+
+              this.listWatchers.set(listKey, { interval, lastList: listString });
             } catch (error) {
               client.send(
                 JSON.stringify({
@@ -550,6 +585,16 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           }
         }
 
+        // PM2 stop list command
+        else if (data.command === 'pm2-stop-list') {
+          const listKey = `${client.id}-pm2-list`;
+          const entry = this.listWatchers.get(listKey);
+          if (entry) {
+            clearInterval(entry.interval);
+            this.listWatchers.delete(listKey);
+          }
+        }
+
         // PM2 notes get command
         else if (data.command === 'pm2-notes-get') {
           const isAuthenticated =
@@ -690,6 +735,14 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       if (key.startsWith(`${client.id}-`)) {
         fs.unwatchFile(entry.logFile);
         this.logWatchers.delete(key);
+      }
+    }
+
+    // Clean up all list watchers for this client
+    for (const [key, entry] of this.listWatchers.entries()) {
+      if (key.startsWith(`${client.id}-`)) {
+        clearInterval(entry.interval);
+        this.listWatchers.delete(key);
       }
     }
   }

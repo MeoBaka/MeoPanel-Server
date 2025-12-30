@@ -26,6 +26,7 @@ let WsGateway = class WsGateway {
     auditlogService;
     server;
     logWatchers = new Map();
+    listWatchers = new Map();
     activeConnections = 0;
     clientCounter = 0;
     constructor(pingService, connectService, pm2Service, meoGuard, auditlogService) {
@@ -50,11 +51,35 @@ let WsGateway = class WsGateway {
                     if (isAuthenticated) {
                         try {
                             const processList = await this.pm2Service.getProcessList();
+                            const listKey = `${client.id}-pm2-list`;
+                            const listString = JSON.stringify(processList);
+                            const existing = this.listWatchers.get(listKey);
+                            if (existing) {
+                                clearInterval(existing.interval);
+                                this.listWatchers.delete(listKey);
+                            }
                             client.send(JSON.stringify({
                                 type: 'pm2-list',
                                 data: processList,
                                 timestamp: data.timestamp,
                             }));
+                            const interval = setInterval(async () => {
+                                try {
+                                    const newList = await this.pm2Service.getProcessList();
+                                    const newListString = JSON.stringify(newList);
+                                    const watcher = this.listWatchers.get(listKey);
+                                    if (watcher && newListString !== watcher.lastList) {
+                                        client.send(JSON.stringify({
+                                            type: 'pm2-list',
+                                            data: newList,
+                                        }));
+                                        watcher.lastList = newListString;
+                                    }
+                                }
+                                catch (error) {
+                                }
+                            }, 1000);
+                            this.listWatchers.set(listKey, { interval, lastList: listString });
                         }
                         catch (error) {
                             client.send(JSON.stringify({
@@ -406,6 +431,14 @@ let WsGateway = class WsGateway {
                         this.logWatchers.delete(watcherKey);
                     }
                 }
+                else if (data.command === 'pm2-stop-list') {
+                    const listKey = `${client.id}-pm2-list`;
+                    const entry = this.listWatchers.get(listKey);
+                    if (entry) {
+                        clearInterval(entry.interval);
+                        this.listWatchers.delete(listKey);
+                    }
+                }
                 else if (data.command === 'pm2-notes-get') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
@@ -509,6 +542,12 @@ let WsGateway = class WsGateway {
             if (key.startsWith(`${client.id}-`)) {
                 fs.unwatchFile(entry.logFile);
                 this.logWatchers.delete(key);
+            }
+        }
+        for (const [key, entry] of this.listWatchers.entries()) {
+            if (key.startsWith(`${client.id}-`)) {
+                clearInterval(entry.interval);
+                this.listWatchers.delete(key);
             }
         }
     }

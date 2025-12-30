@@ -98,3 +98,40 @@
 [Nest] 26912  - 07:03:36 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
 [Nest] 26912  - 07:03:36 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +9ms
 [Nest] 26912  - 07:03:40 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +4s
+[Nest] 28332  - 09:59:19 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 28332  - 09:59:19 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +7ms
+[Nest] 28332  - 09:59:19 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +250ms
+[Nest] 28332  - 09:59:21 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +2s
+[Nest] 28332  - 09:59:23 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +3s
+[Nest] 28332  - 09:59:28 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +5s
+[Nest] 28332  - 09:59:31 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +3s
+[Nest] 28332  - 09:59:39 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +8s
+[Nest] 28332  - 09:59:40 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +1s
+[Nest] 28332  - 09:59:43 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +2s
+[Nest] 28332  - 09:59:44 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +842ms
+[Nest] 20200  - 10:07:36 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 20200  - 10:07:36 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +16ms
+[Nest] 20200  - 10:07:37 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +1s
+[Nest] 20200  - 10:07:48 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +10s
+[Nest] 20200  - 10:08:12 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: ws_2. Total active connections: 1 | Success: true +24s
+[Nest] 20200  - 10:08:12 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2ms
+[Nest] 20200  - 10:08:28 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +16s
+[Nest] 20200  - 10:08:29 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +822ms
+[Nest] 20200  - 10:09:00 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +31s
+[Nest] 20200  - 10:09:01 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +836ms
+[Nest] 20200  - 10:10:14 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +1m
+[Nest] 20200  - 10:10:15 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +873ms
+[Nest] 20200  - 10:10:19 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +4s
+[Nest] 20200  - 10:10:21 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2s
+[Nest] 20200  - 10:10:29 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +8s
+[Nest] 20200  - 10:10:30 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2s
+[Nest] 20200  - 10:11:39 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +1m
+[Nest] 20200  - 10:11:41 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2s
+[Nest] 20200  - 10:11:44 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +3s
+[Nest] 20200  - 10:11:44 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +791ms
+[Nest] 20200  - 10:11:55 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +10s
+[Nest] 20200  - 10:12:20 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +25s
+[Nest] 20200  - 10:13:47 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +1m
+[Nest] 20200  - 10:13:49 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2s
+[Nest] 20200  - 10:14:01 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +13s
+[Nest] 20200  - 10:14:03 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2s

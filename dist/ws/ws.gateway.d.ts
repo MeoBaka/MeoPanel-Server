@@ -13,6 +13,7 @@ export declare class WsGateway implements OnGatewayConnection, OnGatewayDisconne
     private readonly auditlogService;
     server: Server;
     private logWatchers;
+    private listWatchers;
     private activeConnections;
     private clientCounter;
     constructor(pingService: PingService, connectService: ConnectService, pm2Service: Pm2Service, meoGuard: MeoGuard, auditlogService: AuditlogService);
