@@ -10,6 +10,7 @@ import { PingService } from '../ping/ping.service';
 import { ConnectService } from '../connect/connect.service';
 import { Pm2Service } from '../pm2/pm2.service';
 import { MeoGuard } from '../meoguard/meoguard.guard';
+import { AuditlogService } from '../auditlog/auditlog.service';
 
 const fs = require('fs');
 
@@ -27,6 +28,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     private readonly connectService: ConnectService,
     private readonly pm2Service: Pm2Service,
     private readonly meoGuard: MeoGuard,
+    private readonly auditlogService: AuditlogService,
   ) {}
 
   handleConnection(client: any) {
@@ -40,7 +42,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
         const data = JSON.parse(msg);
 
         if (data.command) {
-          console.log(`WS Message from client ${client.clientName || client.id}: command ${data.command}`);
+          this.auditlogService.logWebSocketMessage(client.id, client.clientName, data.command);
         }
 
         // Handle PM2 commands
@@ -57,6 +59,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 JSON.stringify({
                   type: 'pm2-list',
                   data: processList,
+                  timestamp: data.timestamp,
                 }),
               );
             } catch (error) {
@@ -658,7 +661,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
             if (data.clientName) {
               client.clientName = data.clientName;
             }
-            console.log(`WS Client authenticated. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
+            this.auditlogService.logWebSocketAuthenticated(client.id, client.clientName, this.activeConnections);
             const connectData = await this.connectService.connect();
             client.send(JSON.stringify(connectData));
           } else {
@@ -680,7 +683,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   handleDisconnect(client: any) {
     this.activeConnections--;
-    console.log(`WS Connection closed. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
+    this.auditlogService.logWebSocketDisconnect(client.id, client.clientName, this.activeConnections);
 
     // Clean up all log watchers for this client
     for (const [key, entry] of this.logWatchers.entries()) {

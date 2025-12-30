@@ -32,4 +32,8 @@ export declare class Pm2Service implements OnModuleInit {
     }>;
     sendSignal(id: number, signal: string): Promise<any>;
     sendData(id: number, data: string): Promise<any>;
+    getProcessCwd(id: number): Promise<string>;
+    listFiles(id: number, relativePath?: string): Promise<any[]>;
+    readFile(id: number, relativePath: string): Promise<string>;
+    writeFile(id: number, relativePath: string, content: string): Promise<void>;
 }

@@ -72,7 +72,7 @@ let Pm2Service = class Pm2Service {
             }
         }
         catch (error) {
-            this.auditlogService.logError('Failed to load PM2 notes', 'PM2', error);
+            this.auditlogService.logSystemError('Failed to load PM2 notes', 'PM2');
             this.notes = {};
         }
     }
@@ -85,7 +85,7 @@ let Pm2Service = class Pm2Service {
             fs.writeFileSync(this.notesFile, JSON.stringify(this.notes, null, 2));
         }
         catch (error) {
-            this.auditlogService.logError('Failed to save PM2 notes', 'PM2', error);
+            this.auditlogService.logSystemError('Failed to save PM2 notes', 'PM2');
         }
     }
     getNotes(serverId) {
@@ -103,11 +103,11 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.connect((err) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to connect to PM2', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_CONNECT, undefined, 'Failed to connect to PM2', false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', 'Connected to PM2');
+                this.auditlogService.logPm2Connect();
                 resolve();
             });
         });
@@ -116,7 +116,7 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.list((err, processList) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to get PM2 process list', 'PM2', err);
+                    this.auditlogService.logSystemError('Failed to get PM2 process list', 'PM2');
                     reject(err);
                     return;
                 }
@@ -132,11 +132,11 @@ let Pm2Service = class Pm2Service {
             };
             pm2_1.default.start(options, (err, proc) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to start PM2 process', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_START_PROCESS, options.name, `Failed to start PM2 process: ${options.name}`, false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Started process: ${name || script}`);
+                this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_START_PROCESS, name || script, `Started process: ${name || script}`);
                 resolve(proc);
             });
         });
@@ -145,11 +145,11 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.stop(id, (err, proc) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to stop PM2 process', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_STOP_PROCESS, id, `Failed to stop PM2 process: ${id}`, false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Stopped process: ${id}`);
+                this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_STOP_PROCESS, id, `Stopped process: ${id}`);
                 resolve(proc);
             });
         });
@@ -158,11 +158,11 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.restart(id, (err, proc) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to restart PM2 process', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_RESTART_PROCESS, id, `Failed to restart PM2 process: ${id}`, false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Restarted process: ${id}`);
+                this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_RESTART_PROCESS, id, `Restarted process: ${id}`);
                 resolve(proc);
             });
         });
@@ -171,11 +171,11 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.delete(id, (err, proc) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to delete PM2 process', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_DELETE_PROCESS, id, `Failed to delete PM2 process: ${id}`, false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Deleted process: ${id}`);
+                this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_DELETE_PROCESS, id, `Deleted process: ${id}`);
                 resolve(proc);
             });
         });
@@ -200,11 +200,11 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.resurrect((err) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to resurrect PM2 processes', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_RESURRECT, undefined, 'Failed to resurrect PM2 processes', false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', 'Resurrected processes');
+                this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_RESURRECT, undefined, 'Resurrected processes');
                 resolve({});
             });
         });
@@ -213,11 +213,11 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.dump((err) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to save PM2 processes', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_SAVE, undefined, 'Failed to save PM2 processes', false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', 'Saved PM2 processes');
+                this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_SAVE, undefined, 'Saved PM2 processes');
                 resolve({});
             });
         });
@@ -226,7 +226,7 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.describe(id, (err, proc) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to describe PM2 process', 'PM2', err);
+                    this.auditlogService.logSystemError('Failed to describe PM2 process', 'PM2');
                     reject(err);
                     return;
                 }
@@ -261,11 +261,11 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.sendSignalToProcessName(signal, id, (err, proc) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to send signal to PM2 process', 'PM2', err);
+                    this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_SEND_SIGNAL, id, `Failed to send signal to PM2 process: ${id}`, false);
                     reject(err);
                     return;
                 }
-                this.auditlogService.logInfo('PM2', `Sent signal ${signal} to process: ${id}`);
+                this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_SEND_SIGNAL, id, `Sent signal ${signal} to process: ${id}`);
                 resolve(proc);
             });
         });
@@ -274,7 +274,7 @@ let Pm2Service = class Pm2Service {
         return new Promise((resolve, reject) => {
             pm2_1.default.describe(id, (err, proc) => {
                 if (err) {
-                    this.auditlogService.logError('Failed to describe PM2 process', 'PM2', err);
+                    this.auditlogService.logSystemError('Failed to describe PM2 process for sendData', 'PM2');
                     reject(err);
                     return;
                 }
@@ -308,7 +308,7 @@ let Pm2Service = class Pm2Service {
                 });
                 pm2Process.on('close', (code) => {
                     if (code === 0) {
-                        this.auditlogService.logInfo('PM2', `Executed pm2 send command successfully: pm2 send ${pmId} "${data}"`);
+                        this.auditlogService.logPm2Action(auditlog_service_1.AuditAction.PM2_SEND_DATA, pmId, `Executed pm2 send command successfully: pm2 send ${pmId} "${data}"`);
                         resolve({ stdout, stderr });
                     }
                     else {
@@ -318,6 +318,86 @@ let Pm2Service = class Pm2Service {
                 pm2Process.on('error', (error) => {
                     reject(error);
                 });
+            });
+        });
+    }
+    async getProcessCwd(id) {
+        return new Promise((resolve, reject) => {
+            pm2_1.default.describe(id, (err, proc) => {
+                if (err) {
+                    this.auditlogService.logSystemError('Failed to describe PM2 process for getProcessCwd', 'PM2');
+                    reject(err);
+                    return;
+                }
+                if (!proc || proc.length === 0) {
+                    reject(new Error('Process not found'));
+                    return;
+                }
+                const pm2Env = proc[0].pm2_env;
+                if (!pm2Env) {
+                    reject(new Error('PM2 env not found'));
+                    return;
+                }
+                const cwd = pm2Env.pm_cwd;
+                if (!cwd) {
+                    reject(new Error('PM2 cwd not found'));
+                    return;
+                }
+                resolve(cwd);
+            });
+        });
+    }
+    async listFiles(id, relativePath = '') {
+        const cwd = await this.getProcessCwd(id);
+        const fullPath = path.resolve(cwd, relativePath);
+        if (!fullPath.startsWith(cwd)) {
+            throw new Error('Access denied: Path outside of process directory');
+        }
+        return new Promise((resolve, reject) => {
+            fs.readdir(fullPath, { withFileTypes: true }, (err, files) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                const fileList = files.map(file => ({
+                    name: file.name,
+                    isDirectory: file.isDirectory(),
+                    size: file.isFile() ? fs.statSync(path.join(fullPath, file.name)).size : 0,
+                    modified: file.isFile() ? fs.statSync(path.join(fullPath, file.name)).mtime : null,
+                }));
+                resolve(fileList);
+            });
+        });
+    }
+    async readFile(id, relativePath) {
+        const cwd = await this.getProcessCwd(id);
+        const fullPath = path.resolve(cwd, relativePath);
+        if (!fullPath.startsWith(cwd)) {
+            throw new Error('Access denied: Path outside of process directory');
+        }
+        return new Promise((resolve, reject) => {
+            fs.readFile(fullPath, 'utf8', (err, data) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve(data);
+            });
+        });
+    }
+    async writeFile(id, relativePath, content) {
+        const cwd = await this.getProcessCwd(id);
+        const fullPath = path.resolve(cwd, relativePath);
+        if (!fullPath.startsWith(cwd)) {
+            throw new Error('Access denied: Path outside of process directory');
+        }
+        return new Promise((resolve, reject) => {
+            fs.writeFile(fullPath, content, 'utf8', (err) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+                resolve();
             });
         });
     }

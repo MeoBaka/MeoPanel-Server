@@ -13,12 +13,13 @@ const ping_module_1 = require("../ping/ping.module");
 const connect_module_1 = require("../connect/connect.module");
 const pm2_module_1 = require("../pm2/pm2.module");
 const meoguard_module_1 = require("../meoguard/meoguard.module");
+const auditlog_module_1 = require("../auditlog/auditlog.module");
 let WsModule = class WsModule {
 };
 exports.WsModule = WsModule;
 exports.WsModule = WsModule = __decorate([
     (0, common_1.Module)({
-        imports: [ping_module_1.PingModule, connect_module_1.ConnectModule, pm2_module_1.Pm2Module, meoguard_module_1.MeoguardModule],
+        imports: [ping_module_1.PingModule, connect_module_1.ConnectModule, pm2_module_1.Pm2Module, meoguard_module_1.MeoguardModule, auditlog_module_1.AuditlogModule],
         providers: [ws_gateway_1.WsGateway],
     })
 ], WsModule);

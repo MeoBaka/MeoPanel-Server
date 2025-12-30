@@ -37,3 +37,64 @@
 [Nest] 5304  - 04:13:25 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +5ms
 [Nest] 27444  - 04:15:37 30/12/2025     LOG [PM2] Connected to PM2 +0ms
 [Nest] 27444  - 04:15:37 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +8ms
+[Nest] 22012  - 04:40:15 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 22012  - 04:40:15 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 21128  - 04:40:18 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 21128  - 04:40:18 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 16452  - 05:14:19 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 16452  - 05:14:19 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +7ms
+[Nest] 8660  - 05:40:19 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 8660  - 05:40:19 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +7ms
+[Nest] 23236  - 05:40:22 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 23236  - 05:40:22 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +6ms
+[Nest] 27592  - 06:05:16 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 27592  - 06:05:16 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +14ms
+[Nest] 13636  - 06:05:33 30/12/2025     LOG [PM2] Connected to PM2 +0ms
+[Nest] 13636  - 06:05:33 30/12/2025     LOG [Startup] Application is running on: http://localhost:8000 +5ms
+[Nest] 24856  - 06:17:45 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 24856  - 06:17:45 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +5ms
+[Nest] 19252  - 06:21:36 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 19252  - 06:21:36 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +7ms
+[Nest] 18708  - 06:37:27 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 18708  - 06:37:27 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +8ms
+[Nest] 18708  - 06:37:28 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +1s
+[Nest] 18708  - 06:37:33 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +5s
+[Nest] 18708  - 06:37:41 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +8s
+[Nest] 18708  - 06:37:53 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +12s
+[Nest] 18708  - 06:38:00 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +7s
+[Nest] 18708  - 06:40:02 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +2m
+[Nest] 18708  - 06:40:04 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2s
+[Nest] 11056  - 06:40:34 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 11056  - 06:40:34 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +7ms
+[Nest] 14596  - 06:40:36 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 14596  - 06:40:36 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +6ms
+[Nest] 14596  - 06:40:38 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +2s
+[Nest] 14476  - 06:45:36 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 14476  - 06:45:36 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +9ms
+[Nest] 14476  - 06:45:40 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +4s
+[Nest] 14476  - 06:45:54 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +13s
+[Nest] 14476  - 06:45:59 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +6s
+[Nest] 14476  - 06:46:01 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +2s
+[Nest] 14476  - 06:46:02 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +1s
+[Nest] 14476  - 06:46:25 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +23s
+[Nest] 14476  - 06:46:26 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +870ms
+[Nest] 14476  - 06:49:39 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +3m
+[Nest] 14476  - 06:49:52 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +12s
+[Nest] 14476  - 06:50:05 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +14s
+[Nest] 14476  - 06:50:06 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +841ms
+[Nest] 14476  - 06:51:25 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +1m
+[Nest] 14476  - 06:51:26 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +842ms
+[Nest] 14476  - 06:51:49 30/12/2025     LOG [Audit] [AUDIT] PM2_STOP_PROCESS | PM2 | Stopped process: 16 | Success: true +24s
+[Nest] 14476  - 06:51:59 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +10s
+[Nest] 14476  - 06:52:00 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +837ms
+[Nest] 27244  - 06:53:38 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 27244  - 06:53:38 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +5ms
+[Nest] 27244  - 06:53:42 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +5s
+[Nest] 25880  - 06:58:27 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 25880  - 06:58:27 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +5ms
+[Nest] 25880  - 06:58:31 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +4s
+[Nest] 25880  - 06:59:16 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PCPanel_master01. Total active connections: 0 | Success: true +45s
+[Nest] 25880  - 06:59:17 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +914ms
+[Nest] 26912  - 07:03:36 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 26912  - 07:03:36 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +9ms
+[Nest] 26912  - 07:03:40 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PCPanel_master01. Total active connections: 1 | Success: true +4s

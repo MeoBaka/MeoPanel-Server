@@ -16,21 +16,24 @@ const ping_service_1 = require("../ping/ping.service");
 const connect_service_1 = require("../connect/connect.service");
 const pm2_service_1 = require("../pm2/pm2.service");
 const meoguard_guard_1 = require("../meoguard/meoguard.guard");
+const auditlog_service_1 = require("../auditlog/auditlog.service");
 const fs = require('fs');
 let WsGateway = class WsGateway {
     pingService;
     connectService;
     pm2Service;
     meoGuard;
+    auditlogService;
     server;
     logWatchers = new Map();
     activeConnections = 0;
     clientCounter = 0;
-    constructor(pingService, connectService, pm2Service, meoGuard) {
+    constructor(pingService, connectService, pm2Service, meoGuard, auditlogService) {
         this.pingService = pingService;
         this.connectService = connectService;
         this.pm2Service = pm2Service;
         this.meoGuard = meoGuard;
+        this.auditlogService = auditlogService;
     }
     handleConnection(client) {
         client.id = `ws_${++this.clientCounter}`;
@@ -40,7 +43,7 @@ let WsGateway = class WsGateway {
             try {
                 const data = JSON.parse(msg);
                 if (data.command) {
-                    console.log(`WS Message from client ${client.clientName || client.id}: command ${data.command}`);
+                    this.auditlogService.logWebSocketMessage(client.id, client.clientName, data.command);
                 }
                 if (data.command === 'pm2-list') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
@@ -50,6 +53,7 @@ let WsGateway = class WsGateway {
                             client.send(JSON.stringify({
                                 type: 'pm2-list',
                                 data: processList,
+                                timestamp: data.timestamp,
                             }));
                         }
                         catch (error) {
@@ -479,7 +483,7 @@ let WsGateway = class WsGateway {
                         if (data.clientName) {
                             client.clientName = data.clientName;
                         }
-                        console.log(`WS Client authenticated. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
+                        this.auditlogService.logWebSocketAuthenticated(client.id, client.clientName, this.activeConnections);
                         const connectData = await this.connectService.connect();
                         client.send(JSON.stringify(connectData));
                     }
@@ -500,7 +504,7 @@ let WsGateway = class WsGateway {
     }
     handleDisconnect(client) {
         this.activeConnections--;
-        console.log(`WS Connection closed. Client: ${client.clientName || client.id}. Total active connections: ${this.activeConnections}`);
+        this.auditlogService.logWebSocketDisconnect(client.id, client.clientName, this.activeConnections);
         for (const [key, entry] of this.logWatchers.entries()) {
             if (key.startsWith(`${client.id}-`)) {
                 fs.unwatchFile(entry.logFile);
@@ -519,6 +523,7 @@ exports.WsGateway = WsGateway = __decorate([
     __metadata("design:paramtypes", [ping_service_1.PingService,
         connect_service_1.ConnectService,
         pm2_service_1.Pm2Service,
-        meoguard_guard_1.MeoGuard])
+        meoguard_guard_1.MeoGuard,
+        auditlog_service_1.AuditlogService])
 ], WsGateway);
 //# sourceMappingURL=ws.gateway.js.map
