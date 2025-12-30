@@ -13,7 +13,7 @@ async function bootstrap() {
     await app.listen(port);
     app
         .get(auditlog_service_1.AuditlogService)
-        .logInfo('Startup', `Application is running on: http://localhost:${port}`);
+        .logServerStartup(Number(port));
 }
 bootstrap();
 //# sourceMappingURL=main.js.map

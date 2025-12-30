@@ -20,6 +20,6 @@ async function bootstrap() {
   // Log server startup with port
   app
     .get(AuditlogService)
-    .logInfo('Startup', `Application is running on: http://localhost:${port}`);
+    .logServerStartup(Number(port));
 }
 bootstrap();

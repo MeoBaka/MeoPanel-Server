@@ -16,34 +16,75 @@ const ping_service_1 = require("../ping/ping.service");
 const connect_service_1 = require("../connect/connect.service");
 const pm2_service_1 = require("../pm2/pm2.service");
 const meoguard_guard_1 = require("../meoguard/meoguard.guard");
+const auditlog_service_1 = require("../auditlog/auditlog.service");
 const fs = require('fs');
 let WsGateway = class WsGateway {
     pingService;
     connectService;
     pm2Service;
     meoGuard;
+    auditlogService;
     server;
     logWatchers = new Map();
-    constructor(pingService, connectService, pm2Service, meoGuard) {
+    listWatchers = new Map();
+    statusWatchers = new Map();
+    activeConnections = 0;
+    clientCounter = 0;
+    constructor(pingService, connectService, pm2Service, meoGuard, auditlogService) {
         this.pingService = pingService;
         this.connectService = connectService;
         this.pm2Service = pm2Service;
         this.meoGuard = meoGuard;
+        this.auditlogService = auditlogService;
     }
     handleConnection(client) {
+        client.id = `ws_${++this.clientCounter}`;
+        this.activeConnections++;
         client.on('message', async (message) => {
             const msg = message.toString();
             try {
                 const data = JSON.parse(msg);
+                if (data.command) {
+                    this.auditlogService.logWebSocketMessage(client.id, client.clientName, data.command);
+                }
                 if (data.command === 'pm2-list') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
                         try {
                             const processList = await this.pm2Service.getProcessList();
+                            const listKey = `${client.id}-pm2-list`;
+                            const listString = JSON.stringify(processList);
+                            const existing = this.listWatchers.get(listKey);
+                            if (existing) {
+                                clearInterval(existing.interval);
+                                this.listWatchers.delete(listKey);
+                            }
                             client.send(JSON.stringify({
                                 type: 'pm2-list',
                                 data: processList,
+                                timestamp: data.timestamp,
                             }));
+                            let lastPingTime = Date.now();
+                            const interval = setInterval(async () => {
+                                try {
+                                    const newList = await this.pm2Service.getProcessList();
+                                    const newListString = JSON.stringify(newList);
+                                    const watcher = this.listWatchers.get(listKey);
+                                    const now = Date.now();
+                                    if (watcher && (newListString !== watcher.lastList || now - lastPingTime > 5000)) {
+                                        client.send(JSON.stringify({
+                                            type: 'pm2-list',
+                                            data: newList,
+                                            timestamp: now,
+                                        }));
+                                        watcher.lastList = newListString;
+                                        lastPingTime = now;
+                                    }
+                                }
+                                catch (error) {
+                                }
+                            }, 1000);
+                            this.listWatchers.set(listKey, { interval, lastList: listString });
                         }
                         catch (error) {
                             client.send(JSON.stringify({
@@ -395,6 +436,97 @@ let WsGateway = class WsGateway {
                         this.logWatchers.delete(watcherKey);
                     }
                 }
+                else if (data.command === 'pm2-list-files') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.listFiles(parseInt(data.id), data.relativePath || '');
+                            client.send(JSON.stringify({
+                                type: 'pm2-list-files',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to list files',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-read-file') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.readFile(parseInt(data.id), data.relativePath);
+                            client.send(JSON.stringify({
+                                type: 'pm2-read-file',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to read file',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-write-file') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            await this.pm2Service.writeFile(parseInt(data.id), data.relativePath, data.content);
+                            client.send(JSON.stringify({
+                                type: 'pm2-write-file',
+                                data: { success: true },
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to write file',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-stop-list') {
+                    const listKey = `${client.id}-pm2-list`;
+                    const entry = this.listWatchers.get(listKey);
+                    if (entry) {
+                        clearInterval(entry.interval);
+                        this.listWatchers.delete(listKey);
+                    }
+                }
+                else if (data.command === 'status-stop') {
+                    const statusKey = `${client.id}-status`;
+                    const entry = this.statusWatchers.get(statusKey);
+                    if (entry) {
+                        clearInterval(entry.interval);
+                        this.statusWatchers.delete(statusKey);
+                    }
+                }
                 else if (data.command === 'pm2-notes-get') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
@@ -450,7 +582,35 @@ let WsGateway = class WsGateway {
                     if (isAuthenticated) {
                         try {
                             const connectData = await this.connectService.connect();
-                            client.send(JSON.stringify(connectData));
+                            const statusKey = `${client.id}-status`;
+                            const statusString = JSON.stringify(connectData);
+                            const existing = this.statusWatchers.get(statusKey);
+                            if (existing) {
+                                clearInterval(existing.interval);
+                                this.statusWatchers.delete(statusKey);
+                            }
+                            client.send(JSON.stringify({
+                                type: 'status',
+                                data: connectData,
+                                timestamp: data.timestamp,
+                            }));
+                            const interval = setInterval(async () => {
+                                try {
+                                    const newStatus = await this.connectService.connect();
+                                    const newStatusString = JSON.stringify(newStatus);
+                                    const watcher = this.statusWatchers.get(statusKey);
+                                    if (watcher && newStatusString !== watcher.lastStatus) {
+                                        client.send(JSON.stringify({
+                                            type: 'status',
+                                            data: newStatus,
+                                        }));
+                                        watcher.lastStatus = newStatusString;
+                                    }
+                                }
+                                catch (error) {
+                                }
+                            }, 1000);
+                            this.statusWatchers.set(statusKey, { interval, lastStatus: statusString });
                         }
                         catch (error) {
                             client.send(JSON.stringify({
@@ -469,6 +629,10 @@ let WsGateway = class WsGateway {
                 else if (data.uuid && data.token) {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
+                        if (data.clientName) {
+                            client.clientName = data.clientName;
+                        }
+                        this.auditlogService.logWebSocketAuthenticated(client.id, client.clientName, this.activeConnections);
                         const connectData = await this.connectService.connect();
                         client.send(JSON.stringify(connectData));
                     }
@@ -488,10 +652,24 @@ let WsGateway = class WsGateway {
         });
     }
     handleDisconnect(client) {
+        this.activeConnections--;
+        this.auditlogService.logWebSocketDisconnect(client.id, client.clientName, this.activeConnections);
         for (const [key, entry] of this.logWatchers.entries()) {
             if (key.startsWith(`${client.id}-`)) {
                 fs.unwatchFile(entry.logFile);
                 this.logWatchers.delete(key);
+            }
+        }
+        for (const [key, entry] of this.listWatchers.entries()) {
+            if (key.startsWith(`${client.id}-`)) {
+                clearInterval(entry.interval);
+                this.listWatchers.delete(key);
+            }
+        }
+        for (const [key, entry] of this.statusWatchers.entries()) {
+            if (key.startsWith(`${client.id}-`)) {
+                clearInterval(entry.interval);
+                this.statusWatchers.delete(key);
             }
         }
     }
@@ -506,6 +684,7 @@ exports.WsGateway = WsGateway = __decorate([
     __metadata("design:paramtypes", [ping_service_1.PingService,
         connect_service_1.ConnectService,
         pm2_service_1.Pm2Service,
-        meoguard_guard_1.MeoGuard])
+        meoguard_guard_1.MeoGuard,
+        auditlog_service_1.AuditlogService])
 ], WsGateway);
 //# sourceMappingURL=ws.gateway.js.map

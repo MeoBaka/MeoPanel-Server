@@ -19,6 +19,11 @@
             "date": 1766968815557,
             "name": "meopanel\\logs\\app-2025-12-29.log",
             "hash": "08953828c14d9f09f5f8a3ce879cc8d497d44790dbc8ca5992a0a557746ec528"
+        },
+        {
+            "date": 1767030033947,
+            "name": "meopanel\\logs\\app-2025-12-30.log",
+            "hash": "0f51562c7bc8effad6eb00475fde4037552abefde8a8f9c55c6372932f41c4cf"
         }
     ],
     "hashType": "sha256"

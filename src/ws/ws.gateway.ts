@@ -10,6 +10,7 @@ import { PingService } from '../ping/ping.service';
 import { ConnectService } from '../connect/connect.service';
 import { Pm2Service } from '../pm2/pm2.service';
 import { MeoGuard } from '../meoguard/meoguard.guard';
+import { AuditlogService } from '../auditlog/auditlog.service';
 
 const fs = require('fs');
 
@@ -19,19 +20,32 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   server: Server;
 
   private logWatchers: Map<string, { logFile: string, lastSize: number }> = new Map();
+  private listWatchers: Map<string, { interval: NodeJS.Timeout, lastList: string }> = new Map();
+  private statusWatchers: Map<string, { interval: NodeJS.Timeout, lastStatus: string }> = new Map();
+  private activeConnections: number = 0;
+  private clientCounter: number = 0;
 
   constructor(
     private readonly pingService: PingService,
     private readonly connectService: ConnectService,
     private readonly pm2Service: Pm2Service,
     private readonly meoGuard: MeoGuard,
+    private readonly auditlogService: AuditlogService,
   ) {}
 
   handleConnection(client: any) {
+    client.id = `ws_${++this.clientCounter}`;
+    this.activeConnections++;
+    // Connection established log removed - will log on authentication
+
     client.on('message', async (message: Buffer) => {
       const msg = message.toString();
       try {
         const data = JSON.parse(msg);
+
+        if (data.command) {
+          this.auditlogService.logWebSocketMessage(client.id, client.clientName, data.command);
+        }
 
         // Handle PM2 commands
         if (data.command === 'pm2-list') {
@@ -43,12 +57,51 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           if (isAuthenticated) {
             try {
               const processList = await this.pm2Service.getProcessList();
+              const listKey = `${client.id}-pm2-list`;
+              const listString = JSON.stringify(processList);
+
+              // Stop any existing watcher
+              const existing = this.listWatchers.get(listKey);
+              if (existing) {
+                clearInterval(existing.interval);
+                this.listWatchers.delete(listKey);
+              }
+
+              // Send initial data
               client.send(
                 JSON.stringify({
                   type: 'pm2-list',
                   data: processList,
+                  timestamp: data.timestamp,
                 }),
               );
+
+              // Set up realtime updates
+              let lastPingTime = Date.now();
+              const interval = setInterval(async () => {
+                try {
+                  const newList = await this.pm2Service.getProcessList();
+                  const newListString = JSON.stringify(newList);
+                  const watcher = this.listWatchers.get(listKey);
+                  const now = Date.now();
+                  if (watcher && (newListString !== watcher.lastList || now - lastPingTime > 5000)) {
+                    client.send(
+                      JSON.stringify({
+                        type: 'pm2-list',
+                        data: newList,
+                        timestamp: now,
+                      }),
+                    );
+                    // Update the stored list for comparison
+                    watcher.lastList = newListString;
+                    lastPingTime = now;
+                  }
+                } catch (error) {
+                  // Ignore errors in interval
+                }
+              }, 1000); // Check every 1 second
+
+              this.listWatchers.set(listKey, { interval, lastList: listString });
             } catch (error) {
               client.send(
                 JSON.stringify({
@@ -537,6 +590,141 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           }
         }
 
+        // PM2 list files command
+        else if (data.command === 'pm2-list-files') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              const result = await this.pm2Service.listFiles(
+                parseInt(data.id),
+                data.relativePath || '',
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-list-files',
+                  data: result,
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to list files',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 read file command
+        else if (data.command === 'pm2-read-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              const result = await this.pm2Service.readFile(
+                parseInt(data.id),
+                data.relativePath,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-read-file',
+                  data: result,
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to read file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 write file command
+        else if (data.command === 'pm2-write-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.writeFile(
+                parseInt(data.id),
+                data.relativePath,
+                data.content,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-write-file',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to write file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 stop list command
+        else if (data.command === 'pm2-stop-list') {
+          const listKey = `${client.id}-pm2-list`;
+          const entry = this.listWatchers.get(listKey);
+          if (entry) {
+            clearInterval(entry.interval);
+            this.listWatchers.delete(listKey);
+          }
+        }
+
+        // Status stop command
+        else if (data.command === 'status-stop') {
+          const statusKey = `${client.id}-status`;
+          const entry = this.statusWatchers.get(statusKey);
+          if (entry) {
+            clearInterval(entry.interval);
+            this.statusWatchers.delete(statusKey);
+          }
+        }
+
         // PM2 notes get command
         else if (data.command === 'pm2-notes-get') {
           const isAuthenticated =
@@ -617,7 +805,47 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           if (isAuthenticated) {
             try {
               const connectData = await this.connectService.connect();
-              client.send(JSON.stringify(connectData));
+              const statusKey = `${client.id}-status`;
+              const statusString = JSON.stringify(connectData);
+
+              // Stop any existing watcher
+              const existing = this.statusWatchers.get(statusKey);
+              if (existing) {
+                clearInterval(existing.interval);
+                this.statusWatchers.delete(statusKey);
+              }
+
+              // Send initial data
+              client.send(
+                JSON.stringify({
+                  type: 'status',
+                  data: connectData,
+                  timestamp: data.timestamp,
+                }),
+              );
+
+              // Set up realtime updates
+              const interval = setInterval(async () => {
+                try {
+                  const newStatus = await this.connectService.connect();
+                  const newStatusString = JSON.stringify(newStatus);
+                  const watcher = this.statusWatchers.get(statusKey);
+                  if (watcher && newStatusString !== watcher.lastStatus) {
+                    client.send(
+                      JSON.stringify({
+                        type: 'status',
+                        data: newStatus,
+                      }),
+                    );
+                    // Update the stored status for comparison
+                    watcher.lastStatus = newStatusString;
+                  }
+                } catch (error) {
+                  // Ignore errors in interval
+                }
+              }, 1000); // Check every 1 second
+
+              this.statusWatchers.set(statusKey, { interval, lastStatus: statusString });
             } catch (error) {
               client.send(
                 JSON.stringify({
@@ -645,6 +873,10 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
               data.uuid,
             );
           if (isAuthenticated) {
+            if (data.clientName) {
+              client.clientName = data.clientName;
+            }
+            this.auditlogService.logWebSocketAuthenticated(client.id, client.clientName, this.activeConnections);
             const connectData = await this.connectService.connect();
             client.send(JSON.stringify(connectData));
           } else {
@@ -665,11 +897,30 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   handleDisconnect(client: any) {
+    this.activeConnections--;
+    this.auditlogService.logWebSocketDisconnect(client.id, client.clientName, this.activeConnections);
+
     // Clean up all log watchers for this client
     for (const [key, entry] of this.logWatchers.entries()) {
       if (key.startsWith(`${client.id}-`)) {
         fs.unwatchFile(entry.logFile);
         this.logWatchers.delete(key);
+      }
+    }
+
+    // Clean up all list watchers for this client
+    for (const [key, entry] of this.listWatchers.entries()) {
+      if (key.startsWith(`${client.id}-`)) {
+        clearInterval(entry.interval);
+        this.listWatchers.delete(key);
+      }
+    }
+
+    // Clean up all status watchers for this client
+    for (const [key, entry] of this.statusWatchers.entries()) {
+      if (key.startsWith(`${client.id}-`)) {
+        clearInterval(entry.interval);
+        this.statusWatchers.delete(key);
       }
     }
   }

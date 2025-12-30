@@ -28,27 +28,18 @@ export class MeoGuard implements CanActivate {
     const ip = request.connection.remoteAddress || request.socket.remoteAddress;
 
     // Log connection attempt
-    this.auditlogService.logInfo(
-      'WebSocket',
-      `Connection attempt from IP: ${ip}`,
-    );
+    this.auditlogService.logWebSocketConnectAttempt(ip);
 
     // Validate credentials
     const isValid = await this.validateCredentials(token, uuid);
 
     if (!isValid) {
-      this.auditlogService.logError('WebSocket authentication failed', 'Auth', {
-        ip,
-        token: token?.substring(0, 10) + '...',
-      });
+      this.auditlogService.logWebSocketAuthFailure(ip, token);
       throw new WsException('Unauthorized');
     }
 
     // Log successful connection
-    this.auditlogService.logInfo(
-      'WebSocket',
-      `Authenticated connection from IP: ${ip}`,
-    );
+    this.auditlogService.logWebSocketAuthSuccess(ip);
     return true;
   }
 
