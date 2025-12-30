@@ -77,20 +77,24 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
               );
 
               // Set up realtime updates
+              let lastPingTime = Date.now();
               const interval = setInterval(async () => {
                 try {
                   const newList = await this.pm2Service.getProcessList();
                   const newListString = JSON.stringify(newList);
                   const watcher = this.listWatchers.get(listKey);
-                  if (watcher && newListString !== watcher.lastList) {
+                  const now = Date.now();
+                  if (watcher && (newListString !== watcher.lastList || now - lastPingTime > 5000)) {
                     client.send(
                       JSON.stringify({
                         type: 'pm2-list',
                         data: newList,
+                        timestamp: now,
                       }),
                     );
                     // Update the stored list for comparison
                     watcher.lastList = newListString;
+                    lastPingTime = now;
                   }
                 } catch (error) {
                   // Ignore errors in interval
@@ -583,6 +587,121 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           if (entry) {
             fs.unwatchFile(entry.logFile);
             this.logWatchers.delete(watcherKey);
+          }
+        }
+
+        // PM2 list files command
+        else if (data.command === 'pm2-list-files') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              const result = await this.pm2Service.listFiles(
+                parseInt(data.id),
+                data.relativePath || '',
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-list-files',
+                  data: result,
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to list files',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 read file command
+        else if (data.command === 'pm2-read-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              const result = await this.pm2Service.readFile(
+                parseInt(data.id),
+                data.relativePath,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-read-file',
+                  data: result,
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to read file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 write file command
+        else if (data.command === 'pm2-write-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.writeFile(
+                parseInt(data.id),
+                data.relativePath,
+                data.content,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-write-file',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to write file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
           }
         }
 
