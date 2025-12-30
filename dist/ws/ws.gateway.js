@@ -27,6 +27,7 @@ let WsGateway = class WsGateway {
     server;
     logWatchers = new Map();
     listWatchers = new Map();
+    statusWatchers = new Map();
     activeConnections = 0;
     clientCounter = 0;
     constructor(pingService, connectService, pm2Service, meoGuard, auditlogService) {
@@ -439,6 +440,14 @@ let WsGateway = class WsGateway {
                         this.listWatchers.delete(listKey);
                     }
                 }
+                else if (data.command === 'status-stop') {
+                    const statusKey = `${client.id}-status`;
+                    const entry = this.statusWatchers.get(statusKey);
+                    if (entry) {
+                        clearInterval(entry.interval);
+                        this.statusWatchers.delete(statusKey);
+                    }
+                }
                 else if (data.command === 'pm2-notes-get') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
@@ -494,7 +503,35 @@ let WsGateway = class WsGateway {
                     if (isAuthenticated) {
                         try {
                             const connectData = await this.connectService.connect();
-                            client.send(JSON.stringify(connectData));
+                            const statusKey = `${client.id}-status`;
+                            const statusString = JSON.stringify(connectData);
+                            const existing = this.statusWatchers.get(statusKey);
+                            if (existing) {
+                                clearInterval(existing.interval);
+                                this.statusWatchers.delete(statusKey);
+                            }
+                            client.send(JSON.stringify({
+                                type: 'status',
+                                data: connectData,
+                                timestamp: data.timestamp,
+                            }));
+                            const interval = setInterval(async () => {
+                                try {
+                                    const newStatus = await this.connectService.connect();
+                                    const newStatusString = JSON.stringify(newStatus);
+                                    const watcher = this.statusWatchers.get(statusKey);
+                                    if (watcher && newStatusString !== watcher.lastStatus) {
+                                        client.send(JSON.stringify({
+                                            type: 'status',
+                                            data: newStatus,
+                                        }));
+                                        watcher.lastStatus = newStatusString;
+                                    }
+                                }
+                                catch (error) {
+                                }
+                            }, 1000);
+                            this.statusWatchers.set(statusKey, { interval, lastStatus: statusString });
                         }
                         catch (error) {
                             client.send(JSON.stringify({
@@ -548,6 +585,12 @@ let WsGateway = class WsGateway {
             if (key.startsWith(`${client.id}-`)) {
                 clearInterval(entry.interval);
                 this.listWatchers.delete(key);
+            }
+        }
+        for (const [key, entry] of this.statusWatchers.entries()) {
+            if (key.startsWith(`${client.id}-`)) {
+                clearInterval(entry.interval);
+                this.statusWatchers.delete(key);
             }
         }
     }

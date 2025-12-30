@@ -21,6 +21,7 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   private logWatchers: Map<string, { logFile: string, lastSize: number }> = new Map();
   private listWatchers: Map<string, { interval: NodeJS.Timeout, lastList: string }> = new Map();
+  private statusWatchers: Map<string, { interval: NodeJS.Timeout, lastStatus: string }> = new Map();
   private activeConnections: number = 0;
   private clientCounter: number = 0;
 
@@ -595,6 +596,16 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           }
         }
 
+        // Status stop command
+        else if (data.command === 'status-stop') {
+          const statusKey = `${client.id}-status`;
+          const entry = this.statusWatchers.get(statusKey);
+          if (entry) {
+            clearInterval(entry.interval);
+            this.statusWatchers.delete(statusKey);
+          }
+        }
+
         // PM2 notes get command
         else if (data.command === 'pm2-notes-get') {
           const isAuthenticated =
@@ -675,7 +686,47 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           if (isAuthenticated) {
             try {
               const connectData = await this.connectService.connect();
-              client.send(JSON.stringify(connectData));
+              const statusKey = `${client.id}-status`;
+              const statusString = JSON.stringify(connectData);
+
+              // Stop any existing watcher
+              const existing = this.statusWatchers.get(statusKey);
+              if (existing) {
+                clearInterval(existing.interval);
+                this.statusWatchers.delete(statusKey);
+              }
+
+              // Send initial data
+              client.send(
+                JSON.stringify({
+                  type: 'status',
+                  data: connectData,
+                  timestamp: data.timestamp,
+                }),
+              );
+
+              // Set up realtime updates
+              const interval = setInterval(async () => {
+                try {
+                  const newStatus = await this.connectService.connect();
+                  const newStatusString = JSON.stringify(newStatus);
+                  const watcher = this.statusWatchers.get(statusKey);
+                  if (watcher && newStatusString !== watcher.lastStatus) {
+                    client.send(
+                      JSON.stringify({
+                        type: 'status',
+                        data: newStatus,
+                      }),
+                    );
+                    // Update the stored status for comparison
+                    watcher.lastStatus = newStatusString;
+                  }
+                } catch (error) {
+                  // Ignore errors in interval
+                }
+              }, 1000); // Check every 1 second
+
+              this.statusWatchers.set(statusKey, { interval, lastStatus: statusString });
             } catch (error) {
               client.send(
                 JSON.stringify({
@@ -743,6 +794,14 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
       if (key.startsWith(`${client.id}-`)) {
         clearInterval(entry.interval);
         this.listWatchers.delete(key);
+      }
+    }
+
+    // Clean up all status watchers for this client
+    for (const [key, entry] of this.statusWatchers.entries()) {
+      if (key.startsWith(`${client.id}-`)) {
+        clearInterval(entry.interval);
+        this.statusWatchers.delete(key);
       }
     }
   }
