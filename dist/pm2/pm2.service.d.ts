@@ -36,4 +36,15 @@ export declare class Pm2Service implements OnModuleInit {
     listFiles(id: number, relativePath?: string): Promise<any[]>;
     readFile(id: number, relativePath: string): Promise<string>;
     writeFile(id: number, relativePath: string, content: string): Promise<void>;
+    createFile(id: number, relativePath: string, content?: string): Promise<void>;
+    createFolder(id: number, relativePath: string): Promise<void>;
+    deleteFile(id: number, relativePath: string): Promise<void>;
+    renameFile(id: number, oldPath: string, newName: string): Promise<void>;
+    moveFile(id: number, sourcePath: string, destinationPath: string): Promise<void>;
+    pasteFiles(id: number, clipboard: {
+        type: 'cut' | 'copy';
+        files: any[];
+    }, destinationPath: string): Promise<void>;
+    zipFiles(id: number, filePaths: string[], zipName: string): Promise<void>;
+    unzipFile(id: number, zipPath: string, destinationPath: string): Promise<void>;
 }

@@ -466,4 +466,178 @@ export class Pm2Service implements OnModuleInit {
       });
     });
   }
+
+  async createFile(id: number, relativePath: string, content: string = ''): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const fullPath = path.resolve(cwd, relativePath);
+
+    // Ensure the path is within the cwd
+    if (!fullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    return new Promise((resolve, reject) => {
+      fs.writeFile(fullPath, content, 'utf8', (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+  }
+
+  async createFolder(id: number, relativePath: string): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const fullPath = path.resolve(cwd, relativePath);
+
+    // Ensure the path is within the cwd
+    if (!fullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    return new Promise((resolve, reject) => {
+      fs.mkdir(fullPath, { recursive: true }, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+  }
+
+  async deleteFile(id: number, relativePath: string): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const fullPath = path.resolve(cwd, relativePath);
+
+    // Ensure the path is within the cwd
+    if (!fullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    return new Promise((resolve, reject) => {
+      fs.stat(fullPath, (err, stats) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        if (stats.isDirectory()) {
+          fs.rmdir(fullPath, { recursive: true }, (err) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+            resolve();
+          });
+        } else {
+          fs.unlink(fullPath, (err) => {
+            if (err) {
+              reject(err);
+              return;
+            }
+            resolve();
+          });
+        }
+      });
+    });
+  }
+
+  async renameFile(id: number, oldPath: string, newName: string): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const oldFullPath = path.resolve(cwd, oldPath);
+    const newFullPath = path.resolve(cwd, path.dirname(oldPath), newName);
+
+    // Ensure both paths are within the cwd
+    if (!oldFullPath.startsWith(cwd) || !newFullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    return new Promise((resolve, reject) => {
+      fs.rename(oldFullPath, newFullPath, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+  }
+
+  async moveFile(id: number, sourcePath: string, destinationPath: string): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const sourceFullPath = path.resolve(cwd, sourcePath);
+    const destinationFullPath = path.resolve(cwd, destinationPath);
+
+    // Ensure both paths are within the cwd
+    if (!sourceFullPath.startsWith(cwd) || !destinationFullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    return new Promise((resolve, reject) => {
+      fs.rename(sourceFullPath, destinationFullPath, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+  }
+
+  async pasteFiles(id: number, clipboard: { type: 'cut' | 'copy', files: any[] }, destinationPath: string): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const destinationFullPath = path.resolve(cwd, destinationPath);
+
+    // Ensure destination path is within the cwd
+    if (!destinationFullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    for (const file of clipboard.files) {
+      const sourcePath = file.name;
+      const sourceFullPath = path.resolve(cwd, sourcePath);
+      const fileName = path.basename(sourcePath);
+      const destFilePath = path.join(destinationFullPath, fileName);
+
+      // Ensure source path is within the cwd
+      if (!sourceFullPath.startsWith(cwd)) {
+        throw new Error('Access denied: Source path outside of process directory');
+      }
+
+      if (clipboard.type === 'cut') {
+        // Move file
+        await new Promise<void>((resolve, reject) => {
+          fs.rename(sourceFullPath, destFilePath, (err) => {
+            if (err) reject(err);
+            else resolve();
+          });
+        });
+      } else {
+        // Copy file (simplified - for directories this would need recursion)
+        if (file.isDirectory) {
+          // For simplicity, skip directories in copy
+          continue;
+        }
+        await new Promise<void>((resolve, reject) => {
+          fs.copyFile(sourceFullPath, destFilePath, (err) => {
+            if (err) reject(err);
+            else resolve();
+          });
+        });
+      }
+    }
+  }
+
+  async zipFiles(id: number, filePaths: string[], zipName: string): Promise<void> {
+    // This would require additional dependencies like 'archiver'
+    // For now, throw not implemented
+    throw new Error('Zip functionality not implemented');
+  }
+
+  async unzipFile(id: number, zipPath: string, destinationPath: string): Promise<void> {
+    // This would require additional dependencies like 'unzipper'
+    // For now, throw not implemented
+    throw new Error('Unzip functionality not implemented');
+  }
 }

@@ -24,6 +24,21 @@
             "date": 1767030033947,
             "name": "meopanel\\logs\\app-2025-12-30.log",
             "hash": "0f51562c7bc8effad6eb00475fde4037552abefde8a8f9c55c6372932f41c4cf"
+        },
+        {
+            "date": 1767132525726,
+            "name": "meopanel\\logs\\app-2025-12-31.log",
+            "hash": "beabab3a02719493f4d5ef7ae06057b7087c4528ff79e868620c25543f0eecad"
+        },
+        {
+            "date": 1767200411611,
+            "name": "meopanel\\logs\\app-2026-01-01.log",
+            "hash": "710504afba66a1fc0f4069cc855aa14158cc4af577307ca114e30785a896407e"
+        },
+        {
+            "date": 1767294323133,
+            "name": "meopanel\\logs\\app-2026-01-02.log",
+            "hash": "7f5a73368613895c5a58aa77272ac99e2b41ef6601708640a2f8943da6d88acc"
         }
     ],
     "hashType": "sha256"
