@@ -101,6 +101,32 @@ let WsGateway = class WsGateway {
                         }));
                     }
                 }
+                else if (data.command === 'pm2-getlist') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const processList = await this.pm2Service.getProcessList();
+                            client.send(JSON.stringify({
+                                type: 'pm2-getlist',
+                                data: processList,
+                                timestamp: data.timestamp,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to get PM2 process list',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
                 else if (data.command === 'pm2-start') {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
