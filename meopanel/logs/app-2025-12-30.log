@@ -280,3 +280,52 @@
 [Nest] 15152  - 17:22:29 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +5m
 [Nest] 15152  - 17:33:43 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master01. Total active connections: 0 | Success: true +11m
 [Nest] 15152  - 17:33:48 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +4s
+[Nest] 29504  - 17:55:58 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 29504  - 17:55:58 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +7ms
+[Nest] 12128  - 17:56:00 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 12128  - 17:56:00 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +7ms
+[Nest] 12128  - 17:56:05 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +5s
+[Nest] 12128  - 18:13:30 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master01. Total active connections: 0 | Success: true +17m
+[Nest] 12128  - 18:14:44 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +1m
+[Nest] 12128  - 18:19:11 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master01. Total active connections: 0 | Success: true +4m
+[Nest] 12128  - 18:24:13 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +5m
+[Nest] 12128  - 18:27:21 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master01. Total active connections: 0 | Success: true +3m
+[Nest] 12128  - 18:41:29 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +14m
+[Nest] 12128  - 18:49:14 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master01. Total active connections: 0 | Success: true +8m
+[Nest] 18888  - 18:56:00 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 18888  - 18:56:01 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +11ms
+[Nest] 26736  - 18:56:03 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 26736  - 18:56:03 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +7ms
+[Nest] 21944  - 19:56:06 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 21944  - 19:56:06 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +11ms
+[Nest] 29504  - 19:56:09 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 29504  - 19:56:09 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +9ms
+[Nest] 29504  - 20:54:46 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +59m
+[Nest] 22444  - 20:56:23 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 22444  - 20:56:23 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +8ms
+[Nest] 23184  - 20:56:26 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 23184  - 20:56:26 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +11ms
+[Nest] 23184  - 20:56:26 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +144ms
+[Nest] 26644  - 21:56:26 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 26644  - 21:56:26 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +9ms
+[Nest] 28372  - 21:56:29 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 28372  - 21:56:29 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +9ms
+[Nest] 28372  - 21:56:31 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +2s
+[Nest] 30588  - 22:56:29 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 30588  - 22:56:29 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +10ms
+[Nest] 1120  - 22:56:32 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 1120  - 22:56:32 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +6ms
+[Nest] 1120  - 22:56:37 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 1 | Success: true +5s
+[Nest] 1120  - 23:14:23 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: ws_2. Total active connections: 1 | Success: true +18m
+[Nest] 1120  - 23:14:23 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master04. Total active connections: 2 | Success: true +17ms
+[Nest] 1120  - 23:24:09 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master04. Total active connections: 1 | Success: true +10m
+[Nest] 1120  - 23:24:15 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master04. Total active connections: 2 | Success: true +6s
+[Nest] 1120  - 23:24:44 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master04. Total active connections: 1 | Success: true +29s
+[Nest] 1120  - 23:24:49 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master04. Total active connections: 2 | Success: true +5s
+[Nest] 1120  - 23:25:17 30/12/2025     LOG [Audit] [AUDIT] PM2_SEND_DATA | PM2 | Executed pm2 send command successfully: pm2 send 27 "12+44" | Success: true +28s
+[Nest] 1120  - 23:27:40 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: MeoPanel_master01. Total active connections: 1 | Success: true +2m
+[Nest] 1120  - 23:27:44 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 2 | Success: true +3s
+[Nest] 18612  - 23:57:03 30/12/2025     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 18612  - 23:57:03 30/12/2025     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +5ms
+[Nest] 18612  - 23:57:03 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master04. Total active connections: 1 | Success: true +314ms
+[Nest] 18612  - 23:57:05 30/12/2025     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: MeoPanel_master01. Total active connections: 2 | Success: true +1s

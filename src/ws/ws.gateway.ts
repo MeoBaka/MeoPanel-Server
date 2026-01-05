@@ -121,6 +121,42 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
           }
         }
 
+        // PM2 getlist command (single request, no streaming)
+        else if (data.command === 'pm2-getlist') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              const processList = await this.pm2Service.getProcessList();
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-getlist',
+                  data: processList,
+                  timestamp: data.timestamp,
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to get PM2 process list',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
         // PM2 start command
         else if (data.command === 'pm2-start') {
           const isAuthenticated =
@@ -691,6 +727,404 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 JSON.stringify({
                   type: 'error',
                   message: 'Failed to write file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 create file command
+        else if (data.command === 'pm2-create-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.createFile(
+                parseInt(data.id),
+                data.relativePath,
+                data.content || '',
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-create-file',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to create file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 create folder command
+        else if (data.command === 'pm2-create-folder') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.createFolder(
+                parseInt(data.id),
+                data.relativePath,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-create-folder',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to create folder',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 delete files command
+        else if (data.command === 'pm2-delete-files') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              for (const filePath of data.filePaths) {
+                await this.pm2Service.deleteFile(
+                  parseInt(data.id),
+                  filePath,
+                );
+              }
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-delete-files',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to delete files',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 rename file command
+        else if (data.command === 'pm2-rename-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.renameFile(
+                parseInt(data.id),
+                data.oldPath,
+                data.newName,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-rename-file',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to rename file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 move file command
+        else if (data.command === 'pm2-move-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.moveFile(
+                parseInt(data.id),
+                data.sourcePath,
+                data.destinationPath,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-move-file',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to move file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 paste files command
+        else if (data.command === 'pm2-paste-files') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.pasteFiles(
+                parseInt(data.id),
+                data.clipboard,
+                data.destinationPath,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-paste-files',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to paste files',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 zip files command
+        else if (data.command === 'pm2-zip-files') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.zipFiles(
+                parseInt(data.id),
+                data.filePaths,
+                data.zipName,
+                (progress: number) => {
+                  client.send(
+                    JSON.stringify({
+                      type: 'pm2-zip-progress',
+                      progress,
+                    }),
+                  );
+                },
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-zip-files',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to zip files',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 unzip file command
+        else if (data.command === 'pm2-unzip-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.unzipFile(
+                parseInt(data.id),
+                data.zipPath,
+                data.destinationPath,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-unzip-file',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to unzip file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 upload file command
+        else if (data.command === 'pm2-upload-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              await this.pm2Service.uploadFile(
+                parseInt(data.id),
+                data.relativePath,
+                data.fileData,
+                data.fileName,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-upload-file',
+                  data: { success: true },
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to upload file',
+                  error: error.message,
+                }),
+              );
+            }
+          } else {
+            client.send(
+              JSON.stringify({
+                type: 'error',
+                message: 'Unauthorized: Invalid UUID or token for PM2 command',
+              }),
+            );
+          }
+        }
+
+        // PM2 download file command
+        else if (data.command === 'pm2-download-file') {
+          const isAuthenticated =
+            await this.meoGuard.validateMessageCredentials(
+              data.token,
+              data.uuid,
+            );
+          if (isAuthenticated) {
+            try {
+              const result = await this.pm2Service.downloadFile(
+                parseInt(data.id),
+                data.relativePath,
+              );
+              client.send(
+                JSON.stringify({
+                  type: 'pm2-download-file',
+                  data: result,
+                }),
+              );
+            } catch (error) {
+              client.send(
+                JSON.stringify({
+                  type: 'error',
+                  message: 'Failed to download file',
                   error: error.message,
                 }),
               );
