@@ -437,12 +437,13 @@ export class Pm2Service implements OnModuleInit {
     }
 
     return new Promise((resolve, reject) => {
-      fs.readFile(fullPath, 'utf8', (err, data) => {
+      fs.readFile(fullPath, (err, data) => {
         if (err) {
           reject(err);
           return;
         }
-        resolve(data);
+        // Always return as base64
+        resolve(data.toString('base64'));
       });
     });
   }
@@ -457,7 +458,9 @@ export class Pm2Service implements OnModuleInit {
     }
 
     return new Promise((resolve, reject) => {
-      fs.writeFile(fullPath, content, 'utf8', (err) => {
+      // Decode base64
+      const buffer = Buffer.from(content, 'base64');
+      fs.writeFile(fullPath, buffer, (err) => {
         if (err) {
           reject(err);
           return;
@@ -477,7 +480,9 @@ export class Pm2Service implements OnModuleInit {
     }
 
     return new Promise((resolve, reject) => {
-      fs.writeFile(fullPath, content, 'utf8', (err) => {
+      // Decode base64
+      const buffer = Buffer.from(content, 'base64');
+      fs.writeFile(fullPath, buffer, (err) => {
         if (err) {
           reject(err);
           return;
@@ -629,15 +634,131 @@ export class Pm2Service implements OnModuleInit {
     }
   }
 
-  async zipFiles(id: number, filePaths: string[], zipName: string): Promise<void> {
-    // This would require additional dependencies like 'archiver'
-    // For now, throw not implemented
-    throw new Error('Zip functionality not implemented');
+  async zipFiles(id: number, filePaths: string[], zipName: string, onProgress?: (progress: number) => void): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const zipPath = path.join(cwd, zipName);
+
+    // Ensure zip path is within the cwd
+    if (!zipPath.startsWith(cwd)) {
+      throw new Error('Access denied: Zip path outside of process directory');
+    }
+
+    const archiver = require('archiver');
+    const fs = require('fs');
+
+    return new Promise((resolve, reject) => {
+      const output = fs.createWriteStream(zipPath);
+      const archive = archiver('zip', {
+        zlib: { level: 9 } // Sets the compression level
+      });
+
+      output.on('close', () => {
+        if (onProgress) onProgress(100);
+        resolve();
+      });
+
+      archive.on('error', (err: any) => {
+        reject(err);
+      });
+
+      archive.on('progress', (progress: any) => {
+        if (onProgress && progress.entries.total > 0) {
+          const percent = Math.round((progress.entries.processed / progress.entries.total) * 100);
+          onProgress(percent);
+        }
+      });
+
+      archive.pipe(output);
+
+      for (const filePath of filePaths) {
+        const fullPath = path.resolve(cwd, filePath);
+
+        // Ensure file path is within the cwd
+        if (!fullPath.startsWith(cwd)) {
+          reject(new Error('Access denied: File path outside of process directory'));
+          return;
+        }
+
+        // Check if it's a file or directory
+        const stat = fs.statSync(fullPath);
+        if (stat.isDirectory()) {
+          archive.directory(fullPath, path.basename(fullPath));
+        } else {
+          archive.file(fullPath, { name: path.basename(fullPath) });
+        }
+      }
+
+      archive.finalize();
+    });
   }
 
   async unzipFile(id: number, zipPath: string, destinationPath: string): Promise<void> {
-    // This would require additional dependencies like 'unzipper'
-    // For now, throw not implemented
-    throw new Error('Unzip functionality not implemented');
+    const cwd = await this.getProcessCwd(id);
+    const fullZipPath = path.resolve(cwd, zipPath);
+    const fullDestinationPath = path.resolve(cwd, destinationPath);
+
+    // Ensure paths are within the cwd
+    if (!fullZipPath.startsWith(cwd) || !fullDestinationPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    const fs = require('fs');
+    const unzipper = require('unzipper');
+
+    return new Promise((resolve, reject) => {
+      fs.createReadStream(fullZipPath)
+        .pipe(unzipper.Extract({ path: fullDestinationPath }))
+        .on('close', () => {
+          resolve();
+        })
+        .on('error', (err: any) => {
+          reject(err);
+        });
+    });
+  }
+
+  async uploadFile(id: number, relativePath: string, fileData: string, fileName: string): Promise<void> {
+    const cwd = await this.getProcessCwd(id);
+    const fullPath = path.resolve(cwd, relativePath, fileName);
+
+    // Ensure the path is within the cwd
+    if (!fullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    return new Promise((resolve, reject) => {
+      // Decode base64 data
+      const buffer = Buffer.from(fileData, 'base64');
+      fs.writeFile(fullPath, buffer, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        resolve();
+      });
+    });
+  }
+
+  async downloadFile(id: number, relativePath: string): Promise<{ data: string, fileName: string }> {
+    const cwd = await this.getProcessCwd(id);
+    const fullPath = path.resolve(cwd, relativePath);
+
+    // Ensure the path is within the cwd
+    if (!fullPath.startsWith(cwd)) {
+      throw new Error('Access denied: Path outside of process directory');
+    }
+
+    return new Promise((resolve, reject) => {
+      fs.readFile(fullPath, (err, data) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+        // Encode to base64
+        const base64Data = data.toString('base64');
+        const fileName = path.basename(fullPath);
+        resolve({ data: base64Data, fileName });
+      });
+    });
   }
 }

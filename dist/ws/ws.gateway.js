@@ -667,7 +667,12 @@ let WsGateway = class WsGateway {
                     const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
                     if (isAuthenticated) {
                         try {
-                            await this.pm2Service.zipFiles(parseInt(data.id), data.filePaths, data.zipName);
+                            await this.pm2Service.zipFiles(parseInt(data.id), data.filePaths, data.zipName, (progress) => {
+                                client.send(JSON.stringify({
+                                    type: 'pm2-zip-progress',
+                                    progress,
+                                }));
+                            });
                             client.send(JSON.stringify({
                                 type: 'pm2-zip-files',
                                 data: { success: true },
@@ -702,6 +707,56 @@ let WsGateway = class WsGateway {
                             client.send(JSON.stringify({
                                 type: 'error',
                                 message: 'Failed to unzip file',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-upload-file') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            await this.pm2Service.uploadFile(parseInt(data.id), data.relativePath, data.fileData, data.fileName);
+                            client.send(JSON.stringify({
+                                type: 'pm2-upload-file',
+                                data: { success: true },
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to upload file',
+                                error: error.message,
+                            }));
+                        }
+                    }
+                    else {
+                        client.send(JSON.stringify({
+                            type: 'error',
+                            message: 'Unauthorized: Invalid UUID or token for PM2 command',
+                        }));
+                    }
+                }
+                else if (data.command === 'pm2-download-file') {
+                    const isAuthenticated = await this.meoGuard.validateMessageCredentials(data.token, data.uuid);
+                    if (isAuthenticated) {
+                        try {
+                            const result = await this.pm2Service.downloadFile(parseInt(data.id), data.relativePath);
+                            client.send(JSON.stringify({
+                                type: 'pm2-download-file',
+                                data: result,
+                            }));
+                        }
+                        catch (error) {
+                            client.send(JSON.stringify({
+                                type: 'error',
+                                message: 'Failed to download file',
                                 error: error.message,
                             }));
                         }

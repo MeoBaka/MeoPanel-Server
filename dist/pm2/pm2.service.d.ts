@@ -45,6 +45,11 @@ export declare class Pm2Service implements OnModuleInit {
         type: 'cut' | 'copy';
         files: any[];
     }, destinationPath: string): Promise<void>;
-    zipFiles(id: number, filePaths: string[], zipName: string): Promise<void>;
+    zipFiles(id: number, filePaths: string[], zipName: string, onProgress?: (progress: number) => void): Promise<void>;
     unzipFile(id: number, zipPath: string, destinationPath: string): Promise<void>;
+    uploadFile(id: number, relativePath: string, fileData: string, fileName: string): Promise<void>;
+    downloadFile(id: number, relativePath: string): Promise<{
+        data: string;
+        fileName: string;
+    }>;
 }

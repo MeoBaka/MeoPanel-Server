@@ -29,10 +29,12 @@
     "@nestjs/platform-ws": "^11.1.10",
     "@nestjs/websockets": "^11.1.10",
     "@types/ws": "^8.18.1",
+    "archiver": "^7.0.1",
     "nest-winston": "^1.10.2",
     "pm2": "^6.0.14",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
+    "unzipper": "^0.12.3",
     "winston": "^3.19.0",
     "winston-daily-rotate-file": "^5.0.0",
     "ws": "^8.18.3"
