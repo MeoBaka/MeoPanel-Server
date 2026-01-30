@@ -1,6 +1,9 @@
 {
   "07d108c7-0d52-4318-8752-c11f954bb344": {
-    "task1_clock": "23123",
-    "task7_uptime": ""
+    "task1_clock": "",
+    "task7_uptime": "",
+    "task2_counter": "",
+    "task3_randomCpu": "",
+    "task4_memoryGrow": ""
   }
 }
