@@ -1,0 +1,189 @@
+[Nest] 36776  - 02:32:30 30/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 36776  - 02:32:30 30/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 8000 | Success: true +5ms
+[Nest] 36776  - 02:54:27 30/01/2026     ERROR [HTTP] HTTP 404 Error: Cannot GET /auth/me +22m
+[Nest] 36776  - 02:54:29 30/01/2026     ERROR [HTTP] HTTP 404 Error: Cannot GET /auth/me +2s
+[Nest] 36776  - 02:54:32 30/01/2026     ERROR [HTTP] HTTP 404 Error: Cannot GET /auth/me +3s
+[Nest] 36776  - 02:54:36 30/01/2026     ERROR [HTTP] HTTP 404 Error: Cannot GET /auth/me +4s
+[Nest] 33264  - 03:23:32 30/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 33264  - 03:23:32 30/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +6ms
+[Nest] 36952  - 09:14:05 30/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 36952  - 09:14:05 30/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +8ms
+[Nest] 36952  - 09:49:02 30/01/2026     ERROR [HTTP] HTTP 404 Error: Cannot GET /favicon.ico +35m
+[Nest] 36952  - 09:49:22 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +20s
+[Nest] 36952  - 09:49:29 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +7s
+[Nest] 36952  - 09:49:31 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: ws_2. Total active connections: 0 | Success: true +2s
+[Nest] 36952  - 09:49:31 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +168ms
+[Nest] 36952  - 09:53:05 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4m
+[Nest] 36952  - 09:53:07 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 36952  - 09:53:09 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +3s
+[Nest] 36952  - 09:53:11 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 36952  - 09:57:03 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4m
+[Nest] 36952  - 09:57:09 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 36952  - 09:59:14 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 36952  - 09:59:19 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 36952  - 10:00:09 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +50s
+[Nest] 36952  - 10:00:25 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +16s
+[Nest] 36952  - 10:02:14 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 36952  - 10:02:18 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +4s
+[Nest] 36952  - 10:03:47 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +1m
+[Nest] 36952  - 10:03:49 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 36952  - 10:05:21 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 36952  - 10:05:25 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +4s
+[Nest] 36952  - 10:05:50 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +25s
+[Nest] 36952  - 10:05:52 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 36952  - 10:06:14 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +22s
+[Nest] 36952  - 10:06:17 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3s
+[Nest] 36952  - 10:06:30 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +14s
+[Nest] 36952  - 10:08:04 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2m
+[Nest] 36952  - 10:08:13 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +9s
+[Nest] 36952  - 10:08:14 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 36952  - 10:09:28 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +1m
+[Nest] 36952  - 10:09:29 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 36952  - 10:09:47 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +17s
+[Nest] 36952  - 10:09:48 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +1s
+[Nest] 36952  - 10:14:41 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +5m
+[Nest] 36952  - 10:14:43 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3s
+[Nest] 36952  - 10:15:28 30/01/2026     LOG [Audit] [AUDIT] PM2_RESURRECT | PM2 | Resurrected processes | Success: true +45s
+[Nest] 37064  - 10:16:17 30/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 37064  - 10:16:17 30/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +7ms
+[Nest] 37064  - 10:16:22 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +4s
+[Nest] 37064  - 10:16:36 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +14s
+[Nest] 37064  - 10:16:37 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 37064  - 10:16:48 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +11s
+[Nest] 37064  - 10:16:53 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 37064  - 10:20:49 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4m
+[Nest] 37064  - 10:20:54 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 37064  - 10:23:00 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 37064  - 10:23:05 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 37064  - 10:25:11 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 37064  - 10:25:16 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 37064  - 10:26:36 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +1m
+[Nest] 37064  - 10:26:46 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +10s
+[Nest] 37064  - 10:26:52 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +6s
+[Nest] 37064  - 10:26:57 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 37064  - 10:27:17 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +20s
+[Nest] 37064  - 10:27:18 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +1s
+[Nest] 37064  - 10:31:18 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4m
+[Nest] 37064  - 10:31:21 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3s
+[Nest] 37064  - 10:31:27 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +6s
+[Nest] 37064  - 10:31:29 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 37064  - 10:34:12 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +3m
+[Nest] 37064  - 10:34:17 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 37064  - 10:35:52 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 37064  - 10:40:31 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5m
+[Nest] 37064  - 10:40:33 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2s
+[Nest] 37064  - 10:40:35 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 37064  - 10:44:01 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +3m
+[Nest] 37064  - 10:44:02 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 37064  - 10:59:12 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +15m
+[Nest] 37064  - 10:59:14 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 37064  - 10:59:21 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +7s
+[Nest] 37064  - 10:59:23 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +1s
+[Nest] 37064  - 11:04:21 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +5m
+[Nest] 37064  - 11:04:22 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +1s
+[Nest] 37064  - 11:04:59 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +36s
+[Nest] 37064  - 11:05:27 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +28s
+[Nest] 37064  - 11:05:27 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 2 | Success: true +302ms
+[Nest] 37064  - 11:07:33 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2m
+[Nest] 37064  - 11:07:38 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 2 | Success: true +6s
+[Nest] 37064  - 11:09:44 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2m
+[Nest] 37064  - 11:09:49 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 2 | Success: true +6s
+[Nest] 37064  - 11:11:55 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2m
+[Nest] 37064  - 11:12:00 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 2 | Success: true +6s
+[Nest] 37064  - 11:14:06 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2m
+[Nest] 37064  - 11:14:11 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 2 | Success: true +5s
+[Nest] 37064  - 11:15:19 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +1m
+[Nest] 37064  - 11:15:19 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4ms
+[Nest] 37064  - 11:15:22 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3s
+[Nest] 37064  - 11:15:27 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +6s
+[Nest] 37064  - 11:15:29 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 37064  - 11:15:32 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +3s
+[Nest] 37064  - 11:15:33 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +1s
+[Nest] 37064  - 11:15:37 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4s
+[Nest] 37064  - 11:15:39 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 37064  - 11:15:42 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +3s
+[Nest] 37064  - 11:15:44 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:15:46 30/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 23888  - 11:15:46 30/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +7ms
+[Nest] 23888  - 11:15:49 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3s
+[Nest] 23888  - 11:16:16 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +27s
+[Nest] 23888  - 11:16:18 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:16:27 30/01/2026     LOG [Audit] [AUDIT] PM2_RESURRECT | PM2 | Resurrected processes | Success: true +9s
+[Nest] 23888  - 11:18:28 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 23888  - 11:18:30 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:18:35 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +5s
+[Nest] 23888  - 11:18:37 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:18:41 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4s
+[Nest] 23888  - 11:18:42 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:19:26 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +44s
+[Nest] 23888  - 11:19:28 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:21:14 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 23888  - 11:21:16 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:22:40 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +1m
+[Nest] 23888  - 11:22:41 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:22:43 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2s
+[Nest] 23888  - 11:22:45 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:23:20 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +35s
+[Nest] 23888  - 11:23:45 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +25s
+[Nest] 23888  - 11:25:16 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2m
+[Nest] 23888  - 11:25:21 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 23888  - 11:26:17 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +56s
+[Nest] 23888  - 11:26:20 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3s
+[Nest] 23888  - 11:27:14 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +54s
+[Nest] 23888  - 11:27:23 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +9s
+[Nest] 23888  - 11:27:25 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2s
+[Nest] 23888  - 11:27:27 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:33:35 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +6m
+[Nest] 23888  - 11:33:39 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +4s
+[Nest] 23888  - 11:36:19 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +3m
+[Nest] 23888  - 11:38:00 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2m
+[Nest] 23888  - 11:38:10 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +10s
+[Nest] 23888  - 11:38:12 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:43:03 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +5m
+[Nest] 23888  - 11:43:07 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +4s
+[Nest] 23888  - 11:43:17 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +10s
+[Nest] 23888  - 11:43:19 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:43:34 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +16s
+[Nest] 23888  - 11:43:37 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3s
+[Nest] 23888  - 11:43:43 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +6s
+[Nest] 23888  - 11:43:44 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:44:55 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +1m
+[Nest] 23888  - 11:44:57 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:49:58 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +5m
+[Nest] 23888  - 11:50:00 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:50:02 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +2s
+[Nest] 23888  - 11:50:04 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:50:20 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +17s
+[Nest] 23888  - 11:50:22 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:57:08 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +7m
+[Nest] 23888  - 11:57:13 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +5s
+[Nest] 23888  - 11:57:58 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +45s
+[Nest] 23888  - 11:58:00 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:58:05 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +5s
+[Nest] 23888  - 11:58:07 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:58:10 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +3s
+[Nest] 23888  - 11:58:12 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:58:19 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +6s
+[Nest] 23888  - 11:58:21 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 11:58:30 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +10s
+[Nest] 23888  - 11:58:33 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 12:02:35 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +4m
+[Nest] 23888  - 12:02:41 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +6s
+[Nest] 23888  - 12:02:55 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +14s
+[Nest] 23888  - 12:02:57 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 23888  - 12:03:02 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +5s
+[Nest] 23888  - 12:03:05 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s
+[Nest] 13116  - 12:39:38 30/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 13116  - 12:39:38 30/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +6ms
+[Nest] 13116  - 12:42:56 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +3m
+[Nest] 13116  - 12:43:01 30/01/2026     LOG [Audit] [AUDIT] PM2_RESURRECT | PM2 | Resurrected processes | Success: true +4s
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 0 | Success: true +9s
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 1 | Success: true +1ms
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 3 | Success: true +31ms
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 2 | Success: true +2ms
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 4 | Success: true +15ms
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 5 | Success: true +2ms
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 7 | Success: true +19ms
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 6 | Success: true +15ms
+[Nest] 13116  - 12:43:09 30/01/2026     LOG [Audit] [AUDIT] PM2_DELETE_PROCESS | PM2 | Deleted process: 8 | Success: true +16ms
+[Nest] 13116  - 12:43:18 30/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_DISCONNECT | WEBSOCKET | Connection closed. Client: PalAdmin_meobaka. Total active connections: 0 | Success: true +9s

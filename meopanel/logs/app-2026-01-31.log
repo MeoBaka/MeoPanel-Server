@@ -1,0 +1,13 @@
+[Nest] 39116  - 02:36:34 31/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 39116  - 02:36:34 31/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +5ms
+[Nest] 11468  - 02:39:47 31/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 11468  - 02:39:47 31/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +6ms
+[Nest] 11468  - 02:48:36 31/01/2026     ERROR [HTTP] HTTP 404 Error: Cannot GET /favicon.ico +9m
+[Nest] 40900  - 02:59:55 31/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 40900  - 02:59:55 31/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +6ms
+[Nest] 23512  - 03:09:45 31/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 23512  - 03:09:45 31/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +13ms
+[Nest] 40692  - 03:24:35 31/01/2026     LOG [Audit] [AUDIT] PM2_CONNECT | PM2 | Connected to PM2 | Success: true +0ms
+[Nest] 40692  - 03:24:35 31/01/2026     LOG [Audit] [AUDIT] SERVER_STARTUP | SYSTEM | Server started on port 5000 | Success: true +14ms
+[Nest] 40692  - 03:25:05 31/01/2026     ERROR [HTTP] HTTP 404 Error: Cannot GET /favicon.ico +30s
+[Nest] 40692  - 03:25:07 31/01/2026     LOG [Audit] [AUDIT] WEBSOCKET_AUTH_SUCCESS | WEBSOCKET | Client authenticated. Client: PalAdmin_meobaka. Total active connections: 1 | Success: true +2s

@@ -1,2 +1,5 @@
 node_modules
 .env
+
+# SSL Certificates (auto-generated)
+certs/
